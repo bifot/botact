@@ -12,7 +12,7 @@ app.post('/', (req, res) => {
     token: 'd905ad2f35a561e1f87ecce5847c105aa63bfbfd7f80c60b1fc769d9c2f8b2b96a6c048a1810350b9a191'
   })
 
-  bot.command('start', (data) => {
+  bot.command([ 'start', 'help' ], (data) => {
     bot.reply(data.user_id, 'Hello, this is start command.')
   })
 
