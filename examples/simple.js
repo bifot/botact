@@ -13,7 +13,15 @@ app.post('/', (req, res) => {
   })
 
   bot.command([ 'start', 'help' ], (data) => {
-    bot.reply(data.user_id, 'Hello, this is start command.')
+    console.log('Found command "start | help"')
+  })
+
+  bot.hears('test', (data) => {
+    console.log('Heard "test"')
+  })
+
+  bot.hears('simple', (data) => {
+    console.log('Heard "simple"')
   })
 
   bot.event('group_join', (data) => {
