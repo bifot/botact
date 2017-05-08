@@ -10,7 +10,6 @@ const bot = new Botact({
   sub: process.env.SUBSCRIBE
 })
 
-bot.execute()
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
