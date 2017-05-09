@@ -2,6 +2,8 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const Botact = require('../lib')
 
+require('dotenv').load()
+
 const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,

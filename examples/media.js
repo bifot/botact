@@ -1,5 +1,7 @@
 const Botact = require('../lib')
 
+require('dotenv').load()
+
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.ID,
