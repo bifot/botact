@@ -23,7 +23,6 @@ app.post('/', (req, res) => {
     bot.reply(ctx.uid, 'Thanks for subscribe!')
   })
 
-  bot.confirm(req, res)
   bot.listen(req, res)
 })
 
