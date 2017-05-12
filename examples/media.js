@@ -7,7 +7,7 @@ const bot = new Botact({
   group_id: process.env.ID,
   token: process.env.TOKEN,
   admin: process.env.ADMIN,
-  sub: process.env.SUBSCRIBE
+  sub: process.env.SUB
 })
 
 bot.uploadDocument(`${__dirname}/files/book.pdf`).then(file => {
