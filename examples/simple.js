@@ -15,12 +15,12 @@ const bot = new Botact({
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command([ 'start', 'help' ], (data) => {
-    bot.reply(data.user_id, 'Hello, world!')
+  bot.command([ 'start', 'help' ], (ctx) => {
+    bot.reply(ctx.uid, 'Hello, world!')
   })
 
-  bot.event('group_join', (data) => {
-    bot.reply(data.user_id, 'Thanks for subscribe!')
+  bot.event('group_join', (ctx) => {
+    bot.reply(ctx.uid, 'Thanks for subscribe!')
   })
 
   bot.confirm(req, res)
