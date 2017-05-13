@@ -16,22 +16,24 @@ app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   bot.command([ 'start', 'help' ], (ctx) => {
-    bot.reply(ctx.uid, 'Hello, world!')
+    bot.reply(ctx.user_id, 'This is start & help command')
   })
 
   bot.hears('example', (ctx) => {
-    console.log(ctx)
+    bot.reply(ctx.user_id, 'I heard «example»')
   })
 
   bot.on(ctx => {
-    console.log('as default', ctx)
+    bot.reply(ctx.user_id, 'This is not command')
   })
 
   bot.event('group_join', (ctx) => {
-    bot.reply(ctx.uid, 'Thanks for subscribe!')
+    bot.reply(ctx.user_id, 'Thanks for subscribe!')
   })
 
   bot.listen(req, res)
 })
 
-app.listen(3000, () => console.log('Server successfully started. Listening on 3000 port.'))
+app.listen(3000, () => {
+  console.log('Server successfully started. Listening on 3000 port.')
+})
