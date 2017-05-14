@@ -1,4 +1,4 @@
 {
-	"greeting": "Hello, your id is {{id}}",
+  "greeting": "Hello, your id is {{id}}",
   "switch": "Switched to {{lang}}"
 }
