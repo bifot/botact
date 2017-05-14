@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const express = require('express')
+const i18n = require('i18n')
 const Botact = require('../lib')
 
 require('dotenv').load()
@@ -12,23 +13,26 @@ const bot = new Botact({
   sub: process.env.SUB
 })
 
+i18n.configure({
+  locales: [ 'ru', 'en' ],
+  directory: __dirname + '/locales'
+})
+
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command([ 'start', 'help' ], (ctx) => {
-    bot.reply(ctx.user_id, 'This is start & help command')
+  bot.command('start', (ctx) => {
+    bot.reply(ctx.user_id, i18n.__('greeting', { id: ctx.user_id }))
   })
 
-  bot.hears('example', (ctx) => {
-    bot.reply(ctx.user_id, 'I heard «example»')
+  bot.command('en', (ctx) => {
+    i18n.setLocale('en')
+    bot.reply(ctx.user_id, i18n.__('switch', { lang: 'English' }))
   })
 
-  bot.on(ctx => {
-    bot.reply(ctx.user_id, 'This is not command')
-  })
-
-  bot.event('group_join', (ctx) => {
-    bot.reply(ctx.user_id, 'Thanks for subscribe!')
+  bot.command('ru', (ctx) => {
+    i18n.setLocale('ru')
+    bot.reply(ctx.user_id, i18n.__('switch', { lang: 'Русский' }))
   })
 
   bot.listen(req, res)
