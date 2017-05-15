@@ -9,7 +9,7 @@ const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.ID,
   token: process.env.TOKEN,
-  sub: process.env.SUB
+  sub: process.env.SUB,
 })
 
 app.use(bodyParser.json())
@@ -31,7 +31,9 @@ app.post('/', (req, res) => {
     bot.reply(ctx.user_id, 'Thanks for subscribe!')
   })
 
-  bot.listen(req, res)
+  bot.listen(req, res).then(body => {
+    console.log(JSON.stringify(body, null, 2)) // { "type": "message_new", "object": { "user_id": 145003487, "body": "Hello, world", ... } }
+  })
 })
 
 app.listen(80, () => {
