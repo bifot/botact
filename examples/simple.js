@@ -37,5 +37,5 @@ app.post('/', (req, res) => {
 })
 
 app.listen(80, () => {
-  console.log('Server successfully started. Listening on 3000 port.')
+  console.log('Server successfully started. Listening on 80 port.')
 })
