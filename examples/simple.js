@@ -9,13 +9,13 @@ const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.ID,
   token: process.env.TOKEN,
-  sub: process.env.SUB,
+  sub: process.env.SUB
 })
 
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command([ 'start', 'help' ], (ctx) => {
+  bot.command(['start', 'help'], (ctx) => {
     bot.reply(ctx.user_id, 'This is start & help command')
   })
 
