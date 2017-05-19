@@ -9,8 +9,7 @@ const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.ID,
-  token: process.env.TOKEN,
-  sub: process.env.SUB
+  token: process.env.TOKEN
 })
 
 i18n.configure({
