@@ -38,6 +38,4 @@ app.post('/', (req, res) => {
   bot.listen(req, res)
 })
 
-app.listen(80, () => {
-  console.log('Server successfully started. Listening on 3000 port.')
-})
+app.listen(80)
