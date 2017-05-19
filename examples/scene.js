@@ -28,8 +28,6 @@ app.use(bodyParser.json())
 app.post('/', (req, res) => {
   bot.command('регистрация', (ctx) => {
     bot.joinScene(ctx, 'registration')
-      .then(console.log)
-      .catch(console.log)
   })
 
   bot.listen(req, res)
