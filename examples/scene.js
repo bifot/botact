@@ -18,7 +18,7 @@ bot.addScene('registration', [
     return bot.reply(ctx.user_id, 'foo')
   },
   (ctx) => {
-    bot.nextStepScene(ctx)
+    bot.leaveScene(ctx)
     return bot.reply(ctx.user_id, 'bar')
   }
 ])
