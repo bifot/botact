@@ -1,8 +1,8 @@
+require('dotenv').load()
+
 const bodyParser = require('body-parser')
 const express = require('express')
 const Botact = require('../lib')
-
-require('dotenv').load()
 
 const app = express()
 const bot = new Botact({
@@ -36,6 +36,4 @@ app.post('/', (req, res) => {
   })
 })
 
-app.listen(80, () => {
-  console.log('Server successfully started. Listening on 80 port.')
-})
+app.listen(80)

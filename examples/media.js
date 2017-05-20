@@ -1,13 +1,12 @@
-const Botact = require('../lib')
-
 require('dotenv').load()
+
+const Botact = require('../lib')
 
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.ID,
   token: process.env.TOKEN,
-  admin: process.env.ADMIN_TOKEN,
-  sub: process.env.SUB
+  admin: process.env.ADMIN_TOKEN
 })
 
 bot.uploadDocument(`${__dirname}/files/book.pdf`).then(file => {
