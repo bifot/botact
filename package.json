@@ -1,7 +1,7 @@
 {
   "name": "botact",
-  "version": "0.0.4",
-  "description": "API for making bots for VK on callback. Some helpful function and execute method.",
+  "version": "0.1.0",
+  "description": "Small framework for creating VK bots on Callback.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,7 @@
     "api"
   ],
   "author": "Mikhail Semin",
-  "license": "MIT",
+  "license": "Creative Commons Attribution NoDerivs (CC-ND)",
   "bugs": {
     "url": "https://github.com/bifot/botact/issues"
   },
