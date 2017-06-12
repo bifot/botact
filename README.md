@@ -29,9 +29,8 @@ app.post('/', (req, res) => {
   bot.command('start', (ctx) => ctx.reply('This is start!'))
   bot.command('help', ({ reply }) => reply('Do you need help?'))
 
-  bot.event('group_join', ({ user_id }) => {
-    bot.reply(user_id, 'Thanks for subscribe!')
-  })
+  bot.event('group_join', ({ reply }) => ctx.reply('Thanks for subscribe!'))
+  bot.event('group_leave', ({ reply }) => ctx.reply('Oh, you are left...'))
 
   bot.listen(req, res)
 })
