@@ -1,5 +1,3 @@
-require('dotenv').load()
-
 const bodyParser = require('body-parser')
 const express = require('express')
 const i18n = require('i18n')

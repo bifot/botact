@@ -1,5 +1,3 @@
-require('dotenv').load()
-
 const Botact = require('../lib')
 
 const bot = new Botact({
@@ -10,9 +8,9 @@ const bot = new Botact({
 })
 
 bot.uploadDocument(`${__dirname}/files/book.pdf`).then(file => {
-  console.log(file) // => { id: 445225557, owner_id: 145003487, title: 'book.pdf', ... }
+  console.log(file) // => { id: 445225557, owner_id: 145003487, title: 'book.pdf', ... }
 })
 
 bot.uploadPhoto(`${__dirname}/files/girl.png`).then(file => {
-  console.log(file) // => { id: 456246067, album_id: -14, owner_id: 145003487, ... }
+  console.log(file) // => { id: 456246067, album_id: -14, owner_id: 145003487, ... }
 })
