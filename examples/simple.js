@@ -13,20 +13,20 @@ const bot = new Botact({
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command(['start', 'help'], (ctx) => {
-    bot.reply(ctx.user_id, 'This is start & help command')
+  bot.command(['start', 'help'], ({ user_id }) => {
+    bot.reply(user_id, 'This is start & help command')
   })
 
-  bot.hears('example', (ctx) => {
-    bot.reply(ctx.user_id, 'I heard «example»')
+  bot.hears('example', ({ user_id }) => {
+    bot.reply(user_id, 'I heard «example»')
   })
 
-  bot.on(ctx => {
-    bot.reply(ctx.user_id, 'This is not command')
+  bot.on(({ user_id }) => {
+    bot.reply(user_id, 'This is not command')
   })
 
-  bot.event('group_join', (ctx) => {
-    bot.reply(ctx.user_id, 'Thanks for subscribe!')
+  bot.event('group_join', ({ user_id }) => {
+    bot.reply(user_id, 'Thanks for subscribe!')
   })
 
   bot.listen(req, res).then(body => {

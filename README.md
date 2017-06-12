@@ -26,8 +26,12 @@ const bot = new Botact({
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.event('group_join', (ctx) => {
-    bot.reply(ctx.user_id, 'Thanks for subscribe!')
+  bot.on(ctx => {
+    bot.reply(ctx.user_id, `You wrote: ${ctx.body}`)
+  })
+
+  bot.event('group_join', ({ user_id }) => {
+    bot.reply(user_id, 'Thanks for subscribe!')
   })
 
   bot.listen(req, res)
