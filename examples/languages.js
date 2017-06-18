@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const express = require('express')
+const path = require('path')
 const i18n = require('i18n')
 const Botact = require('../lib')
 
@@ -12,7 +13,7 @@ const bot = new Botact({
 
 i18n.configure({
   locales: [ 'ru', 'en' ],
-  directory: __dirname + '/locales'
+  directory: path.resovle(__dirname, './locales')
 })
 
 app.use(bodyParser.json())

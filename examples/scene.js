@@ -1,3 +1,4 @@
+require('dotenv').load()
 const bodyParser = require('body-parser')
 const express = require('express')
 const Botact = require('../lib')
@@ -9,22 +10,23 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.addScene('registration', [
-  (ctx) => {
-    bot.nextStepScene(ctx)
-    return bot.reply(ctx.user_id, 'foo')
+bot.addScene('wizard',
+  ({ reply, scene }) => {
+    scene.next()
+    return reply('Write me something!')
   },
-  (ctx) => {
-    bot.leaveScene(ctx)
-    return bot.reply(ctx.user_id, 'bar')
+  ({ body, reply, scene }) => {
+    scene.leave()
+    return reply(`You wrote: "${body}"`)
   }
-])
+)
 
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command('регистрация', (ctx) => {
-    bot.joinScene(ctx, 'registration')
+  bot.command('join', ({ reply, scene }) => {
+    scene.join('wizard')
+    reply('Hi, now you are in the scene!')
   })
 
   bot.listen(req, res)
