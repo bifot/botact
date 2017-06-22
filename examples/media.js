@@ -1,4 +1,4 @@
-const Botact = require('../lib')
+const { Botact } = require('../index')
 
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,

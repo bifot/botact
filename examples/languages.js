@@ -2,7 +2,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const path = require('path')
 const i18n = require('i18n')
-const Botact = require('../lib')
+const { Botact } = require('../index')
 
 const app = express()
 const bot = new Botact({
