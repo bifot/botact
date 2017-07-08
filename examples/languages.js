@@ -12,7 +12,7 @@ const bot = new Botact({
 })
 
 i18n.configure({
-  locales: [ 'ru', 'en' ],
+  locales: ['ru', 'en'],
   directory: path.resovle(__dirname, './locales')
 })
 
