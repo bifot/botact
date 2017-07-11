@@ -344,6 +344,6 @@ bot.addScene('wizard',
 )
 ```
 
-## Licence
+## License
 
 MIT.
