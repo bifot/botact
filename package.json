@@ -17,7 +17,7 @@
     "api"
   ],
   "author": "Mikhail Semin",
-  "license": "Creative Commons Attribution NoDerivs (CC-ND)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/bifot/botact/issues"
   },
