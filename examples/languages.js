@@ -20,17 +20,17 @@ app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   bot.command('start', (ctx) => {
-    bot.reply(ctx.user_id, i18n.__('greeting', { id: ctx.user_id }))
+    ctx.reply(i18n.__('greeting', { id: ctx.user_id }))
   })
 
   bot.command('en', (ctx) => {
     i18n.setLocale('en')
-    bot.reply(ctx.user_id, i18n.__('switch', { lang: 'English' }))
+    ctx.reply(i18n.__('switch', { lang: 'English' }))
   })
 
   bot.command('ru', (ctx) => {
     i18n.setLocale('ru')
-    bot.reply(ctx.user_id, i18n.__('switch', { lang: 'Русский' }))
+    ctx.reply(i18n.__('switch', { lang: 'Русский' }))
   })
 
   bot.listen(req, res)

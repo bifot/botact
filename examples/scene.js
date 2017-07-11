@@ -10,22 +10,22 @@ const bot = new Botact({
 })
 
 bot.addScene('wizard',
-  ({ reply, scene }) => {
-    scene.next()
-    return reply('Write me something!')
+  (ctx) => {
+    ctx.scene.next()
+    return ctx.reply('Write me something!')
   },
-  ({ body, reply, scene }) => {
-    scene.leave()
-    return reply(`You wrote: "${body}"`)
+  (ctx) => {
+    ctx.scene.leave()
+    return ctx.reply(`You wrote: "${body}"`)
   }
 )
 
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command('join', ({ reply, scene }) => {
-    scene.join('wizard')
-    reply('Hi, now you are in the scene!')
+  bot.command('join', (ctx) => {
+    ctx.scene.join('wizard')
+    ctx.reply('Hi, now you are in the scene!')
   })
 
   bot.listen(req, res)
