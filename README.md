@@ -243,11 +243,11 @@ const bot = new Botact({
 bot.addScene('wizard',
   (ctx) => {
     ctx.scene.next()
-    return ctx.reply('Write me something!')
+    ctx.reply('Write me something!')
   },
   (ctx) => {
     ctx.scene.leave()
-    return ctx.reply(`You wrote: "${body}"`)
+    ctx.reply(`You wrote: "${body}"`)
   }
 )
 
@@ -278,11 +278,11 @@ Registering scene and adding callbacks to her.
 bot.addScene('wizard',
   (ctx) => {
     ctx.scene.next()
-    return ctx.reply('Write me something!')
+    ctx.reply('Write me something!')
   },
   (ctx) => {
     ctx.scene.leave()
-    return ctx.reply(`You wrote: "${body}"`)
+    ctx.reply(`You wrote: "${body}"`)
   }
 )
 ```
