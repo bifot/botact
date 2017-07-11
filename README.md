@@ -343,3 +343,7 @@ bot.addScene('wizard',
   }
 )
 ```
+
+## Licence
+
+MIT.
