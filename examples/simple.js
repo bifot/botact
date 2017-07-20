@@ -8,7 +8,7 @@ const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.ID,
   token: process.env.TOKEN,
-  log: true
+  secret: process.env.SECRET
 })
 
 app.use(bodyParser.json())
