@@ -13,7 +13,7 @@ const bot = new Botact({
 
 i18n.configure({
   locales: ['ru', 'en'],
-  directory: path.resovle(__dirname, './locales')
+  directory: path.join(__dirname, 'locales')
 })
 
 app.use(bodyParser.json())

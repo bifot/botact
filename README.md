@@ -3,7 +3,7 @@
 
 # Botact
 
-Framework for creating VK bots on Callback.
+Framework for creating VK bots on Callback. Read about the framework in the [official docs of VK](https://vk.com/dev/bots_docs).
 
 ## Install
 
@@ -43,8 +43,9 @@ app.listen(80)
 ## Methods
 
 * [constructor(options)](#constructoroptions)
-* [.options() [getter]](#options-getter)
-* [.removeValueFromOptions(key)](#removevaluefromoptionskey)
+* [.getOptions()](#options-getter)
+* [.setOptions(settings)](#setoptionssettings)
+* [.deleteOptions(settings)](#deleteoptionssettings)
 * [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
 * [.command(command, callback)](#commandcommand-callback)
 * [.hears(command, callback)](#hearscommand-callback)
@@ -73,17 +74,25 @@ const bot = new Botact({
 })
 ```
 
-### .options() [getter]
+### .getOptions()
 
 Returns the parameters of the bot.
 
-### .removeValueFromOptions(key)
+### .setOptions(settings)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
-| key    | string    | yes       |
+| settings   | object    | yes       |
 
-Removes the value from the bot settings.
+Sets the parameters for the bot's settings.
+
+### .deleteOptions(settings)
+
+| Parameter  | Type      | Requried  |
+| -----------|:---------:| ---------:|
+| settings   | array     | yes       |
+
+Deletes the parameters from the bot's settings.
 
 ### .execute(method, settings, token, callback)
 
@@ -164,7 +173,7 @@ bot.event('group_leave', (ctx) => {
 Uploading document.
 
 ```javascript
-bot.uploadDocument(`${__dirname}/files/book.pdf`)
+bot.uploadDocument('./book.pdf')
   .then((file) => {
     console.log(file) // => { id: 445225557, owner_id: 145003487, title: 'book.pdf', ... }
   })
@@ -179,7 +188,7 @@ bot.uploadDocument(`${__dirname}/files/book.pdf`)
 Uploading photo.
 
 ```javascript
-bot.uploadPhoto(`${__dirname}/files/girl.png`)
+bot.uploadPhoto('./girl.png')
   .then((file) => {
     console.log(file) // => { id: 456246067, album_id: -14, owner_id: 145003487, ... }
   })
@@ -195,11 +204,11 @@ bot.uploadPhoto(`${__dirname}/files/girl.png`)
 
 ```javascript
 bot.command('start', (ctx) => {
-  // With shortcut
+  // with shortcut
   ctx.reply('Hi, this is start!')
-  // Simple Usage
+  // simple usage
   bot.reply(ctx.user_id, 'Hi, this is start!')
-  // or by function from context
+  // function from context
   ctx.sendMessage(ctx.user_id, 'Hi, this is start!')
 })
 ```
@@ -224,7 +233,7 @@ If your bot contains complex logic, you can use scenes for this.
 * [.addScene(name, ...callbacks)](addscenename-callbacks)
 * [.joinScene(ctx, session, step)](joinscenectx-session-step)
 * [.leaveScene(ctx)](leavescenectx)
-* [.nextStepScene(ctx)](nextstepscenectx)
+* [.nextScene(ctx)](nextscenectx)
 
 ### Example
 
@@ -299,9 +308,9 @@ Joining in a scene.
 
 ```javascript
 bot.command('join', (ctx) => {
-  // With shortcut
+  // with shortcut
   ctx.scene.join('wizard')
-  // Simple Usage
+  // simple usage
   bot.joinScene(ctx, 'wizard')
 })
 ```
@@ -325,7 +334,7 @@ bot.addScene('wizard',
 )
 ```
 
-### .nextStepScene(ctx)
+### .nextScene(ctx)
 
 | Parameter  | Type      | Requried |
 | -----------|:---------:| --------:|
@@ -339,7 +348,7 @@ bot.addScene('wizard',
     // With shortcut
     ctx.scene.next()
     // Simple Usage
-    bot.nextStepScene(ctx)
+    bot.nextScene(ctx)
   }
 )
 ```

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const bodyParser = require('body-parser')
 const express = require('express')
 const { Botact } = require('../index')
@@ -17,7 +19,12 @@ app.post('/', (req, res) => {
   bot.command('start', (ctx) => ctx.reply('This is start!'))
   bot.command('help', (ctx) => ctx.reply('Do you need help?'))
 
-  bot.listen(req, res)
+  bot.hears('car', (ctx) => ctx.reply('I love Tesla!'))
+  bot.hears('skate', (ctx) => ctx.reply('Good job, skaterino!'))
+
+  bot.listen(req, res).catch(console.log)
 })
 
-app.listen(80)
+app.listen(80, () => {
+  console.log('Server was started on 80 port...')
+})

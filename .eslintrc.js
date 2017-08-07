@@ -74,7 +74,6 @@ module.exports = {
     "eqeqeq": "error",
     "func-call-spacing": "error",
     "func-name-matching": "error",
-    "func-names": "error",
     "func-style": [
       "error",
       "expression"
@@ -238,7 +237,6 @@ module.exports = {
     "padded-blocks": "off",
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
-    "prefer-destructuring": "error",
     "prefer-numeric-literals": "error",
     "prefer-promise-reject-errors": "error",
     "prefer-reflect": "off",
@@ -257,7 +255,7 @@ module.exports = {
       "error",
       "never"
     ],
-    "semi": process.env.NODE_ENV === 'production' ? [ "error", "always" ] : [ "error", "never" ],
+    "semi": [ "error", "never" ],
     "semi-spacing": [
       "error",
       {
