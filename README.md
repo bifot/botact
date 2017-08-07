@@ -7,7 +7,7 @@ Framework for creating VK bots on Callback. Read about the framework in the [off
 
 ## Install
 
-```
+```sh
 $ npm i botact
 ```
 
