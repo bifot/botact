@@ -43,18 +43,18 @@ app.listen(80)
 ## Methods
 
 * [constructor(options)](#constructoroptions)
-* [.getOptions()](#options-getter)
+* [.getOptions()](#getoptions)
 * [.setOptions(settings)](#setoptionssettings)
 * [.deleteOptions(settings)](#deleteoptionssettings)
 * [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
 * [.command(command, callback)](#commandcommand-callback)
 * [.hears(command, callback)](#hearscommand-callback)
 * [.on(callback)](#oncallback)
-* [.event(event, callback)](eventevent-callback)
-* [.uploadDocument(path)](uploaddocumentpath)
-* [.uploadPhoto(path)](uploadphotopath)
+* [.event(event, callback)](#eventevent-callback)
+* [.uploadDocument(file)](#uploaddocumentfile)
+* [.uploadPhoto(file)](#uploadphotofile)
 * [.reply(userId, message, attachment)](replyuserid-message-attachment)
-* [.listen(req, res)](listenreq-res)
+* [.listen(req, res)](#listenreq-res)
 
 ### constructor(options)
 
@@ -230,10 +230,10 @@ bot.listen(req, res)
 
 If your bot contains complex logic, you can use scenes for this.
 
-* [.addScene(name, ...callbacks)](addscenename-callbacks)
-* [.joinScene(ctx, session, step)](joinscenectx-session-step)
-* [.leaveScene(ctx)](leavescenectx)
-* [.nextScene(ctx)](nextscenectx)
+* [.addScene(name, ...callbacks)](#addscenename-callbacks)
+* [.joinScene(ctx, session, step)](#joinscenectx-session-step)
+* [.leaveScene(ctx)](#leavescenectx)
+* [.nextScene(ctx)](#nextscenectx)
 
 ### Example
 
