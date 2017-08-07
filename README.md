@@ -3,7 +3,7 @@
 
 # Botact
 
-Framework for creating VK bots on Callback. Read about the framework in the [official docs of VK](https://vk.com/dev/bots_docs).
+Framework for creating VK bots on Callback.
 
 ## Install
 
