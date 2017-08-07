@@ -164,33 +164,45 @@ bot.event('group_leave', (ctx) => {
 })
 ```
 
-### .uploadDocument(path)
+### .uploadDocument(file)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
-| path       | string    | yes       |
+| file       | string    | yes       |
 
 Uploading document.
 
 ```javascript
 bot.uploadDocument('./book.pdf')
   .then((file) => {
-    console.log(file) // => { id: 445225557, owner_id: 145003487, title: 'book.pdf', ... }
+    console.log(file)
+    // {
+    //   id: 445225557
+    //   owner_id: 145003487,
+    //   title: 'book.pdf',
+    //   ...
+    // }
   })
 ```
 
-### .uploadPhoto(path)
+### .uploadPhoto(file)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
-| path       | string    | yes       |
+| file       | string    | yes       |
 
 Uploading photo.
 
 ```javascript
 bot.uploadPhoto('./girl.png')
   .then((file) => {
-    console.log(file) // => { id: 456246067, album_id: -14, owner_id: 145003487, ... }
+    console.log(file)
+    // {
+    //   id: 456246067,
+    //   album_id: -14,
+    //   owner_id: 145003487,
+    //   ...
+    // }
   })
 ```
 
