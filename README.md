@@ -338,9 +338,9 @@ Leave from scene.
 ```javascript
 bot.addScene('wizard',
   (ctx) => {
-    // With shortcut
+    // with shortcut
     ctx.scene.leave()
-    // Simple Usage
+    // simple usage
     bot.leaveScene(ctx)
   }
 )
@@ -357,9 +357,9 @@ Go to the next stage of scene.
 ```javascript
 bot.addScene('wizard',
   (ctx) => {
-    // With shortcut
+    // with shortcut
     ctx.scene.next()
-    // Simple Usage
+    // simple usage
     bot.nextScene(ctx)
   }
 )
