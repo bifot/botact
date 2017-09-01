@@ -53,6 +53,7 @@ app.listen(80)
 * [.event(event, callback)](#eventevent-callback)
 * [.uploadDocument(file)](#uploaddocumentfile)
 * [.uploadPhoto(file)](#uploadphotofile)
+* [.uploadAndSaveCoverPhoto(file)](#uploadandsavecoverphotofile)
 * [.reply(userId, message, attachment)](replyuserid-message-attachment)
 * [.listen(req, res)](#listenreq-res)
 
@@ -202,6 +203,26 @@ bot.uploadPhoto('./girl.png')
     //   album_id: -14,
     //   owner_id: 145003487,
     //   ...
+    // }
+  })
+```
+
+### .uploadAndSaveCoverPhoto(file)
+
+| Parameter  | Type      | Requried  |
+| -----------|:---------:| ---------:|
+| file       | string    | yes       |
+
+Uploading and saving cover.
+
+```javascript
+bot.uploadAndSaveCoverPhoto('./cover.jpg')
+  .then((body) => {
+    console.log(body)
+    // {
+    //   response: {
+    //     images: [ [Object], [Object], [Object], [Object], [Object] ]
+    //   }
     // }
   })
 ```
