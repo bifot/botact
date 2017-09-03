@@ -1,10 +1,10 @@
 {
   "name": "botact",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "description": "Small framework for creating VK bots on Callback.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node examples/simple.js"
   },
   "repository": {
     "type": "git",
@@ -12,8 +12,8 @@
   },
   "keywords": [
     "vk",
+    "vk-api",
     "bot",
-    "callback",
     "api"
   ],
   "author": "Mikhail Semin",
