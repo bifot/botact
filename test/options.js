@@ -2,7 +2,7 @@ const { Botact } = require('../index')
 
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN,
+  token: process.env.TOKEN
 })
 
 bot.setOptions({
