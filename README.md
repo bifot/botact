@@ -229,18 +229,20 @@ bot.uploadAndSaveCoverPhoto('./cover.jpg')
 
 ### .reply(userId, message, attachment)
 
-| Parameter  | Type      | Requried  |
-| -----------|:---------:| ---------:|
-| userId     | number    | yes       |
-| message    | string    | yes (no, if setten attachment)   |
-| attachment | string    | yes (no, if setten message)      |
+| Parameter  | Type             | Requried  |
+| -----------|:----------------:| ---------:|
+| userId     | number or array  | yes       |
+| message    | string           | yes (no, if setten attachment)   |
+| attachment | string           | yes (no, if setten message)      |
 
 ```javascript
 bot.command('start', (ctx) => {
-  // with shortcut
+  // with shortcut from context
   ctx.reply('Hi, this is start!')
   // simple usage
   bot.reply(ctx.user_id, 'Hi, this is start!')
+  // to multiple users
+  bot.reply([ ctx.user_id, 1 ], 'Hi, this is start!')
   // function from context
   ctx.sendMessage(ctx.user_id, 'Hi, this is start!')
 })
