@@ -266,9 +266,9 @@ bot.listen(req, res)
 If your bot contains complex logic, you can use scenes for this.
 
 * [.addScene(name, ...callbacks)](#addscenename-callbacks)
-* [.joinScene(ctx, session, step)](#joinscenectx-session-step)
+* [.joinScene(ctx, session, body, step)](#joinscenectx-session-step)
 * [.leaveScene(ctx)](#leavescenectx)
-* [.nextScene(ctx)](#nextscenectx)
+* [.nextScene(ctx, body)](#nextscenectx)
 
 ### Example
 
@@ -337,16 +337,17 @@ bot.addScene('wizard',
 | -----------|:---------:| --------:|
 | ctx        | object    | yes      |
 | session    | string    | yes      |
+| body       | all types | no       |
 | step       | number    | no       |
 
 Joining in a scene.
 
 ```javascript
 bot.command('join', (ctx) => {
-  // with shortcut
+  // with shortcut without additional settings
   ctx.scene.join('wizard')
-  // simple usage
-  bot.joinScene(ctx, 'wizard')
+  // simple usage with additional settings
+  bot.joinScene(ctx, 'wizard', { foo: 'bar' })
 })
 ```
 
@@ -374,16 +375,17 @@ bot.addScene('wizard',
 | Parameter  | Type      | Requried |
 | -----------|:---------:| --------:|
 | ctx        | object    | yes      |
+| body       | all types | no       |
 
 Go to the next stage of scene.
 
 ```javascript
 bot.addScene('wizard',
   (ctx) => {
-    // with shortcut
-    ctx.scene.next()
-    // simple usage
-    bot.nextScene(ctx)
+    // with shortcut without additional settings
+    ctx.scene.next({ foo: 'bar' })
+    // simple usage with additional settings
+    bot.nextScene(ctx, { foo: 'bar' })
   }
 )
 ```
