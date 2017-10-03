@@ -9,13 +9,13 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
+bot.use((ctx) => {
+  ctx.date = new Date()
+})
+
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.use((ctx) => {
-    ctx.date = new Date()
-  })
-
   bot.on(({ reply, date }) => reply(`The date of the message is ${date}`))
 
   bot.listen(req, res)
