@@ -6,18 +6,17 @@ const app = express()
 
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN,
-  secret: process.env.SECRET
+  token: process.env.TOKEN
 })
 
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  bot.command('start', ({ reply }) => reply('This is start!'))
-  bot.command('help', ({ reply }) => reply('Do you need help?'))
+  bot.use((ctx) => {
+    ctx.date = new Date()
+  })
 
-  bot.hears('car', ({ reply }) => reply('I love Tesla!'))
-  bot.hears('skate', ({ reply }) => reply('Good job, skaterino!'))
+  bot.on(({ reply, date }) => reply(`The date of the message is ${date}`))
 
   bot.listen(req, res)
 })

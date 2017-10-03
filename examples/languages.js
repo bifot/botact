@@ -7,7 +7,6 @@ const { Botact } = require('../index')
 const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  group_id: process.env.ID,
   token: process.env.TOKEN
 })
 
