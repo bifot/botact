@@ -133,8 +133,8 @@ bot.execute('users.get', {
   console.log(body)
   // {
   //   id: 1,
-  //   first_name: '?????',
-  //   last_name: '?????'
+  //   first_name: 'Pavel',
+  //   last_name: 'Durov'
   // }
 })
 ```
