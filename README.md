@@ -265,6 +265,12 @@ bot.listen(req, res)
 
 If your bot contains complex logic, you can use scenes for this.
 
+### Usage
+
+```
+$ redis-server
+```
+
 * [.addScene(name, ...callbacks)](#addscenename-callbacks)
 * [.joinScene(ctx, session, body, step)](#joinscenectx-session-step)
 * [.leaveScene(ctx)](#leavescenectx)
