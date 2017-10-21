@@ -65,7 +65,6 @@ const { Botact } = require('botact')
 
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  group_id: process.env.ID,
   token: process.env.TOKEN
 })
 ```
@@ -73,6 +72,14 @@ const bot = new Botact({
 ### .getOptions()
 
 Get settings.
+
+```js
+console.log(bot.getOptions())
+// {
+//   confirmation: '12345',
+//   token: 'abcde...'
+// }
+```
 
 ### .setOptions(settings)
 
@@ -82,6 +89,16 @@ Get settings.
 
 Set settings.
 
+```js
+bot.setOptions({ foo: 'bar' })
+// Settings looks like:
+// {
+//   confirmation: '12345',
+//   token: 'abcde...',
+//   foo: 'bar'
+// }
+```
+
 ### .deleteOptions(settings)
 
 | Parameter  | Type      | Requried  |
@@ -89,6 +106,14 @@ Set settings.
 | settings   | array     | yes       |
 
 Delete keys settings.
+
+```js
+bot.deleteOptions([ 'token', 'group_id' ])
+// Settings looks like:
+// {
+//   foo: 'bar'
+// }
+```
 
 ### .execute(method, settings, token, callback)
 
@@ -100,6 +125,19 @@ Delete keys settings.
 | callback   | function  | no       |
 
 Call API by [execute](https://vk.com/dev/execute).
+
+```js
+bot.execute('users.get', {
+  user_ids: 1
+}, this.settings.token, (body) => {
+  console.log(body)
+  // {
+  //   id: 1,
+  //   first_name: '?????',
+  //   last_name: '?????'
+  // }
+})
+```
 
 ### .command(command, callback)
 
@@ -234,12 +272,12 @@ bot.uploadAndSaveCoverPhoto('./cover.jpg')
 bot.command('start', (ctx) => {
   // with shortcut from context
   ctx.reply('Hi, this is start!')
+  // function from context
+  ctx.sendMessage(ctx.user_id, 'Hi, this is start!')
   // simple usage
   bot.reply(ctx.user_id, 'Hi, this is start!')
   // to multiple users
   bot.reply([ ctx.user_id, 1 ], 'Hi, this is start!')
-  // function from context
-  ctx.sendMessage(ctx.user_id, 'Hi, this is start!')
 })
 ```
 
