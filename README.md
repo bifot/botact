@@ -3,7 +3,7 @@
 
 # Botact
 
-Framework for creating VK bots on Callback.
+A framework for creating VK bots on callback API.
 
 ## Install
 
@@ -21,22 +21,17 @@ const { Botact } = require('botact')
 const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  group_id: process.env.ID,
   token: process.env.TOKEN
 })
 
+bot.command('start', (ctx) => ctx.reply('This is start!'))
+bot.command('help', (ctx) => ctx.reply('Do you need help?'))
+
+bot.event('group_join', (ctx) => ctx.reply('Thanks for subscribe!'))
+bot.event('group_leave', (ctx) => ctx.reply('Oh, you are left...'))
+
 app.use(bodyParser.json())
-
-app.post('/', (req, res) => {
-  bot.command('start', (ctx) => ctx.reply('This is start!'))
-  bot.command('help', (ctx) => ctx.reply('Do you need help?'))
-
-  bot.event('group_join', (ctx) => ctx.reply('Thanks for subscribe!'))
-  bot.event('group_leave', (ctx) => ctx.reply('Oh, you are left...'))
-
-  bot.listen(req, res)
-})
-
+app.post('/', bot.listen)
 app.listen(80)
 ```
 
@@ -63,7 +58,7 @@ app.listen(80)
 | -----------|:---------:| ---------:|
 | options    | object    | yes       |
 
-You need to set the group_id, token and confirmation code.
+Create bot.
 
 ```javascript
 const { Botact } = require('botact')
@@ -77,7 +72,7 @@ const bot = new Botact({
 
 ### .getOptions()
 
-Returns the parameters of the bot.
+Get settings.
 
 ### .setOptions(settings)
 
@@ -85,7 +80,7 @@ Returns the parameters of the bot.
 | -----------|:---------:| ---------:|
 | settings   | object    | yes       |
 
-Sets the parameters for the bot's settings.
+Set settings.
 
 ### .deleteOptions(settings)
 
@@ -93,7 +88,7 @@ Sets the parameters for the bot's settings.
 | -----------|:---------:| ---------:|
 | settings   | array     | yes       |
 
-Deletes the parameters from the bot's settings.
+Delete keys settings.
 
 ### .execute(method, settings, token, callback)
 
@@ -104,7 +99,7 @@ Deletes the parameters from the bot's settings.
 | token      | string    | yes       |
 | callback   | function  | no       |
 
-Executing a request to API by [execute](https://vk.com/dev/execute).
+Call API by [execute](https://vk.com/dev/execute).
 
 ### .command(command, callback)
 
@@ -113,7 +108,7 @@ Executing a request to API by [execute](https://vk.com/dev/execute).
 | command    | string    | yes       |
 | callback   | function  | yes       |
 
-If the bot get a message which equal to command, then will run a callback.
+Add command w/ strict match.
 
 ```javascript
 bot.command('attach', (ctx) => {
@@ -128,7 +123,7 @@ bot.command('attach', (ctx) => {
 | command    | string    | yes       |
 | callback   | function  | yes       |
 
-If the bot hears a command in message from user, then will run callback (e.g. user sent 'Hello, world' and bot hears 'hello', then bot will run a callback).
+Add command w/ match like RegEx.
 
 ```javascript
 bot.hears('hello', (ctx) => {
@@ -142,7 +137,7 @@ bot.hears('hello', (ctx) => {
 | -----------|:---------:| ---------:|
 | callback   | function  | yes       |
 
-If the bot receives a message and doesn't find an answer to it, it will run a callback.
+Add reserved callback.
 
 ```javascript
 bot.on((ctx) => {
@@ -157,7 +152,7 @@ bot.on((ctx) => {
 | event      | string    | yes       |
 | callback   | function  | no        |
 
-Adding a callback to [events](https://vk.com/dev/callback_api).
+Add [event](https://vk.com/dev/callback_api).
 
 ```javascript
 bot.event('group_leave', (ctx) => {
@@ -171,7 +166,7 @@ bot.event('group_leave', (ctx) => {
 | -----------|:---------:| ---------:|
 | file       | string    | yes       |
 
-Uploading document.
+Upload document.
 
 ```javascript
 bot.uploadDocument('./book.pdf')
@@ -192,7 +187,7 @@ bot.uploadDocument('./book.pdf')
 | -----------|:---------:| ---------:|
 | file       | string    | yes       |
 
-Uploading photo.
+Upload photo.
 
 ```javascript
 bot.uploadPhoto('./girl.png')
@@ -213,7 +208,7 @@ bot.uploadPhoto('./girl.png')
 | -----------|:---------:| ---------:|
 | file       | string    | yes       |
 
-Uploading and saving cover.
+Upload and save cover.
 
 ```javascript
 bot.uploadAndSaveCoverPhoto('./cover.jpg')
@@ -255,7 +250,7 @@ bot.command('start', (ctx) => {
 | req        | object    | yes       |
 | res        | object    | yes       |
 
-Start listening.
+Start listen.
 
 ```javascript
 bot.listen(req, res)
@@ -263,18 +258,16 @@ bot.listen(req, res)
 
 ## Scenes
 
-If your bot contains complex logic, you can use scenes for this.
-
 ### Usage
 
-```
+```sh
 $ redis-server
 ```
 
 * [.addScene(name, ...callbacks)](#addscenename-callbacks)
-* [.joinScene(ctx, session, body, step)](#joinscenectx-session-step)
+* [.joinScene(ctx, scene, body, step)](#joinscenectx-scene-body-step)
 * [.leaveScene(ctx)](#leavescenectx)
-* [.nextScene(ctx, body)](#nextscenectx)
+* [.nextScene(ctx, body)](#nextscenectx-body)
 
 ### Example
 
@@ -286,7 +279,6 @@ const { Botact } = require('botact')
 const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  group_id: process.env.ID,
   token: process.env.TOKEN
 })
 
@@ -301,17 +293,12 @@ bot.addScene('wizard',
   }
 )
 
-app.use(bodyParser.json())
-
-app.post('/', (req, res) => {
-  bot.command('join', (ctx) => {
-    ctx.scene.join('wizard')
-    ctx.reply('Hi, now you are in the scene!')
-  })
-
-  bot.listen(req, res)
+bot.command('join', (ctx) => {
+  ctx.scene.join('wizard')
 })
 
+app.use(bodyParser.json())
+app.post('/', bot.listen)
 app.listen(80)
 ```
 
@@ -322,7 +309,7 @@ app.listen(80)
 | name       | string    | yes         |
 | callbacks  | function  | minumum one |
 
-Registering scene and adding callbacks to her.
+Add scene.
 
 ```javascript
 bot.addScene('wizard',
@@ -337,16 +324,16 @@ bot.addScene('wizard',
 )
 ```
 
-### .joinScene(ctx, session, step)
+### .joinScene(ctx, scene, body, step)
 
 | Parameter  | Type      | Requried |
 | -----------|:---------:| --------:|
 | ctx        | object    | yes      |
-| session    | string    | yes      |
-| body       | all types | no       |
+| scene      | string    | yes      |
+| body       | object    | no       |
 | step       | number    | no       |
 
-Joining in a scene.
+Enter scene.
 
 ```javascript
 bot.command('join', (ctx) => {
@@ -363,7 +350,7 @@ bot.command('join', (ctx) => {
 | -----------|:---------:| --------:|
 | ctx        | object    | yes      |
 
-Leave from scene.
+Leave scene.
 
 ```javascript
 bot.addScene('wizard',
@@ -376,14 +363,14 @@ bot.addScene('wizard',
 )
 ```
 
-### .nextScene(ctx)
+### .nextScene(ctx, body)
 
 | Parameter  | Type      | Requried |
 | -----------|:---------:| --------:|
 | ctx        | object    | yes      |
-| body       | all types | no       |
+| body       | obect     | no       |
 
-Go to the next stage of scene.
+Navigate to the next stage scene.
 
 ```javascript
 bot.addScene('wizard',
