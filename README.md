@@ -55,7 +55,7 @@ app.listen(process.env.PORT, () => {
 * [.uploadDocument(file)](#uploaddocumentfile)
 * [.uploadPhoto(file)](#uploadphotofile)
 * [.uploadAndSaveCoverPhoto(file)](#uploadandsavecoverphotofile)
-* [.reply(userId, message, attachment)](replyuserid-message-attachment)
+* [.reply(userId, message, attachment)](#replyuserid-message-attachment)
 * [.listen(req, res)](#listenreq-res)
 
 ### constructor(options)
