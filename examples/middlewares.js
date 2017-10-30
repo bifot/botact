@@ -9,18 +9,18 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.use((ctx) => {
-  ctx.date = new Date()
-})
+bot
+  .use((ctx) => {
+    ctx.date = new Date()
+  })
+  .on(({ reply, date }) => {
+    reply(`The date of the message is ${date}`)
+  })
 
 app.use(bodyParser.json())
 
-app.post('/', (req, res) => {
-  bot.on(({ reply, date }) => reply(`The date of the message is ${date}`))
+app.post('/', bot.listen)
 
-  bot.listen(req, res)
-})
-
-app.listen(80, () => {
-  console.log('Server was started on 80 port...')
+app.listen(process.env.PORT, () => {
+  console.log(`Listen on ${process.env.PORT}`)
 })

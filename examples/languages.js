@@ -15,24 +15,21 @@ i18n.configure({
   directory: path.join(__dirname, 'locales')
 })
 
+bot
+  .command('start', ({ reply, user_id }) => {
+    reply(i18n.__('greeting', { id: user_id }))
+  })
+  .command('en', ({ reply }) => {
+    i18n.setLocale('en')
+    reply(i18n.__('switch', { lang: 'English' }))
+  })
+  .command('ru', ({ reply }) => {
+    i18n.setLocale('ru')
+    reply(i18n.__('switch', { lang: 'Русский' }))
+  })
+
 app.use(bodyParser.json())
 
-app.post('/', (req, res) => {
-  bot.command('start', (ctx) => {
-    ctx.reply(i18n.__('greeting', { id: ctx.user_id }))
-  })
-
-  bot.command('en', (ctx) => {
-    i18n.setLocale('en')
-    ctx.reply(i18n.__('switch', { lang: 'English' }))
-  })
-
-  bot.command('ru', (ctx) => {
-    i18n.setLocale('ru')
-    ctx.reply(i18n.__('switch', { lang: 'Русский' }))
-  })
-
-  bot.listen(req, res)
-})
+app.post('/', bot.listen)
 
 app.listen(80)

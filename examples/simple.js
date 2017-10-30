@@ -9,12 +9,18 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.command('start', ({ reply }) => reply('This is start!'))
-bot.command('help', ({ reply }) => reply('Do you need help?'))
-
-bot.hears('car', ({ reply }) => reply('I love Tesla!'))
-bot.hears('skate', ({ reply }) => reply('Good job, skaterino!'))
+bot
+  .command('start', ({ reply }) => reply('This is start!'))
+  .command('help', ({ reply }) => reply('Do you need help?'))
+  .hears('car', ({ reply }) => reply('I love Tesla!'))
+  .hears('skate', ({ reply }) => reply('Good job, skaterino!'))
+  .event('group_join', ({ reply }) => reply('Thanks for subscribe!'))
+  .event('group_leave', ({ reply }) => reply('Oh, you are left...'))
 
 app.use(bodyParser.json())
+
 app.post('/', bot.listen)
-app.listen(process.env.PORT, () => console.log(`Listening ${process.env.PORT} port...`))
+
+app.listen(process.env.PORT, () => {
+  console.log(`Listen on ${process.env.PORT}`)
+})

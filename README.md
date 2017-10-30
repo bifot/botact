@@ -24,15 +24,21 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.command('start', (ctx) => ctx.reply('This is start!'))
-bot.command('help', (ctx) => ctx.reply('Do you need help?'))
-
-bot.event('group_join', (ctx) => ctx.reply('Thanks for subscribe!'))
-bot.event('group_leave', (ctx) => ctx.reply('Oh, you are left...'))
+bot
+  .command('start', ({ reply }) => reply('This is start!'))
+  .command('help', ({ reply }) => reply('Do you need help?'))
+  .hears('car', ({ reply }) => reply('I love Tesla!'))
+  .hears('skate', ({ reply }) => reply('Good job, skaterino!'))
+  .event('group_join', ({ reply }) => reply('Thanks for subscribe!'))
+  .event('group_leave', ({ reply }) => reply('Oh, you are left...'))
 
 app.use(bodyParser.json())
+
 app.post('/', bot.listen)
-app.listen(80)
+
+app.listen(process.env.PORT, () => {
+  console.log(`Listen on ${process.env.PORT}`)
+})
 ```
 
 ## Methods
@@ -91,7 +97,6 @@ Set settings.
 
 ```js
 bot.setOptions({ foo: 'bar' })
-// Settings looks like:
 // {
 //   confirmation: '12345',
 //   token: 'abcde...',
@@ -108,8 +113,7 @@ bot.setOptions({ foo: 'bar' })
 Delete keys settings.
 
 ```js
-bot.deleteOptions([ 'token', 'group_id' ])
-// Settings looks like:
+bot.deleteOptions([ 'token', 'confirmation' ])
 // {
 //   foo: 'bar'
 // }
@@ -317,27 +321,36 @@ const { Botact } = require('botact')
 const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN
-})
-
-bot.addScene('wizard',
-  (ctx) => {
-    ctx.scene.next()
-    ctx.reply('Write me something!')
+  token: process.env.TOKEN,
+  flowTimeout: 20, // document will be deleted after 20 secs
+  redisConfig: {
+    host: '127.0.0.1', // default host for redis
+    port: 8080 // custom port for redis
   },
-  (ctx) => {
-    ctx.scene.leave()
-    ctx.reply(`You wrote: "${body}"`)
-  }
-)
-
-bot.command('join', (ctx) => {
-  ctx.scene.join('wizard')
 })
+
+bot
+  .addScene('wizard',
+    ({ reply, scene: { next } }) => {
+      next()
+      reply('Write me something!')
+     },
+    ({ reply, body, scene: { leave } }) => {
+      leave()
+      reply(`You wrote: ${body}`)
+    }
+  )
+  .command('join', ({ scene: { join } }) => {
+    join('wizard')
+  })
 
 app.use(bodyParser.json())
+
 app.post('/', bot.listen)
-app.listen(80)
+
+app.listen(process.env.PORT, () => {
+  console.log(`Listen on ${process.env.PORT}`)
+})
 ```
 
 ### .addScene(name, ...callbacks)
@@ -351,13 +364,13 @@ Add scene.
 
 ```javascript
 bot.addScene('wizard',
-  (ctx) => {
-    ctx.scene.next()
-    ctx.reply('Write me something!')
+  ({ reply, scene: { next } }) => {
+    next()
+    reply('Write me something!')
   },
-  (ctx) => {
-    ctx.scene.leave()
-    ctx.reply(`You wrote: "${body}"`)
+  ({ reply, body, scene: { leave } }) => {
+    leave()
+    reply(`You wrote: ${body}`)
   }
 )
 ```
