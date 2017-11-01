@@ -1,10 +1,11 @@
 {
   "name": "botact",
-  "version": "1.5.9",
+  "version": "1.6.0",
   "description": "A framework for creating VK bots on callback API.",
   "main": "index.js",
   "scripts": {
-    "test": "eslint -c .eslintrc.json ."
+    "test": "eslint -c .eslintrc.json .",
+    "fix": "eslint -c .eslintrc.json . --fix"
   },
   "repository": {
     "type": "git",
