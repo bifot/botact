@@ -307,7 +307,7 @@ $ redis-server
 ```
 
 * [.addScene(name, ...callbacks)](#addscenename-callbacks)
-* [.joinScene(ctx, scene, body, step)](#joinscenectx-scene-body-step)
+* [.joinScene(ctx, scene, body, step, now)](#joinscenectx-scene-body-step-now)
 * [.leaveScene(ctx)](#leavescenectx)
 * [.nextScene(ctx, body)](#nextscenectx-body)
 
@@ -375,14 +375,15 @@ bot.addScene('wizard',
 )
 ```
 
-### .joinScene(ctx, scene, body, step)
+### .joinScene(ctx, scene, body, step, now)
 
-| Parameter  | Type      | Requried |
-| -----------|:---------:| --------:|
-| ctx        | object    | yes      |
-| scene      | string    | yes      |
-| body       | object    | no       |
-| step       | number    | no       |
+| Parameter  | Type      | Requried | Default |
+| -----------|:---------:| :-------:| -------:|
+| ctx        | object    | yes      | none    |
+| scene      | string    | yes      | none    |
+| body       | object    | no       | none    |
+| step       | number    | no       | 0       |
+| now        | number    | no       | true    |
 
 Enter scene.
 
