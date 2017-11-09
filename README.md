@@ -44,8 +44,8 @@ app.listen(process.env.PORT, () => {
 ## Methods
 
 * [constructor(options)](#constructoroptions)
-* [.getOptions()](#getoptions)
-* [.setOptions(settings)](#setoptionssettings)
+* [[getter] options](#getter-options)
+* [[setter] options](#setter-options)
 * [.deleteOptions(settings)](#deleteoptionssettings)
 * [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
 * [.command(command, callback)](#commandcommand-callback)
@@ -75,28 +75,24 @@ const bot = new Botact({
 })
 ```
 
-### .getOptions()
+### [getter] options
 
-Get settings.
+Get options.
 
 ```js
-console.log(bot.getOptions())
+console.log(bot.options)
 // {
 //   confirmation: '12345',
 //   token: 'abcde...'
 // }
 ```
 
-### .setOptions(settings)
+### [setter] options
 
-| Parameter  | Type      | Requried  |
-| -----------|:---------:| ---------:|
-| settings   | object    | yes       |
-
-Set settings.
+Set options.
 
 ```js
-bot.setOptions({ foo: 'bar' })
+bot.options = { foo: 'bar' }
 // {
 //   confirmation: '12345',
 //   token: 'abcde...',
