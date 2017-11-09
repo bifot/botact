@@ -11,6 +11,12 @@ A framework for creating VK bots on callback API.
 $ npm i botact
 ```
 
+## Tests
+
+```sh
+$ npm test
+```
+
 ## Usage
 
 ```javascript
@@ -80,7 +86,7 @@ const bot = new Botact({
 Get options.
 
 ```js
-console.log(bot.options)
+bot.options
 // {
 //   confirmation: '12345',
 //   token: 'abcde...'
