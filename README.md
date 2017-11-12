@@ -30,13 +30,13 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot
-  .command('start', ({ reply }) => reply('This is start!'))
-  .command('help', ({ reply }) => reply('Do you need help?'))
-  .hears('car', ({ reply }) => reply('I love Tesla!'))
-  .hears('skate', ({ reply }) => reply('Good job, skaterino!'))
-  .event('group_join', ({ reply }) => reply('Thanks for subscribe!'))
-  .event('group_leave', ({ reply }) => reply('Oh, you are left...'))
+bot.command('start', ({ reply }) => reply('This is start!'))
+
+bot.hears('car', ({ reply }) => reply('I love Tesla!'))
+
+bot.on(({ reply }) => reply('What?'))
+
+bot.event('group_join', ({ reply }) => reply('Thanks for subscribe!'))
 
 app.use(bodyParser.json())
 
@@ -61,7 +61,7 @@ app.listen(process.env.PORT, () => {
 * [.uploadDocument(file)](#uploaddocumentfile)
 * [.uploadPhoto(file)](#uploadphotofile)
 * [.uploadAndSaveCoverPhoto(file)](#uploadandsavecoverphotofile)
-* [.reply(userId, message, attachment)](#replyuserid-message-attachment)
+* [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
 
 ### constructor(options)
@@ -266,13 +266,14 @@ bot.uploadAndSaveCoverPhoto('./cover.jpg')
   })
 ```
 
-### .reply(userId, message, attachment)
+### .reply(userId, message, attachment, callback)
 
 | Parameter  | Type             | Requried  |
 | -----------|:----------------:| ---------:|
 | userId     | number or array  | yes       |
 | message    | string           | yes (no, if setten attachment)   |
 | attachment | string           | yes (no, if setten message)      |
+| callback   | function         | no        |
 
 ```javascript
 bot.command('start', (ctx) => {
@@ -331,20 +332,18 @@ const bot = new Botact({
   },
 })
 
-bot
-  .addScene('wizard',
-    ({ reply, scene: { next } }) => {
-      next()
-      reply('Write me something!')
-     },
-    ({ reply, body, scene: { leave } }) => {
-      leave()
-      reply(`You wrote: ${body}`)
-    }
-  )
-  .command('join', ({ scene: { join } }) => {
-    join('wizard')
-  })
+bot.addScene('wizard',
+  ({ reply, scene: { next } }) => {
+    next()
+    reply('Write me something!')
+   },
+  ({ reply, body, scene: { leave } }) => {
+    leave()
+    reply(`You wrote: ${body}`)
+  }
+)
+
+bot.command('join', ({ scene: { join } }) => join('wizard'))
 
 app.use(bodyParser.json())
 

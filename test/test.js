@@ -2,16 +2,19 @@ const { expect } = require('chai')
 const { Botact } = require('../')
 const config = require('../config')
 
-const bot = new Botact(config)
-
 describe('Botact', () => {
+  before(() => {
+    this.bot = new Botact(config)
+  })
+
   it('CREATE bot', () => {
-    const bot = new Botact(config)
+    const { bot } = this
 
     expect(bot).to.be.a('object')
   })
 
   it('GET options', () => {
+    const { bot } = this
     const options = bot.options
 
     expect(bot.options)
@@ -20,6 +23,8 @@ describe('Botact', () => {
   })
 
   it('SET options', () => {
+    const { bot } = this
+
     bot.options = { foo: 'bar' }
 
     const options = bot.options
@@ -30,6 +35,8 @@ describe('Botact', () => {
   })
 
   it('DELETE options', () => {
+    const { bot } = this
+
     bot.deleteOptions([ 'confirmation', 'foo' ])
 
     const options = bot.options
@@ -40,6 +47,7 @@ describe('Botact', () => {
   })
 
   it('ADD command', () => {
+    const { bot } = this
     const command = 'example'
     const callback = (ctx) => expect(ctx).to.be.a('object')
     const { actions: { commands } } = bot.command(command, callback)
@@ -61,6 +69,7 @@ describe('Botact', () => {
   })
 
   it('ADD hears', () => {
+    const { bot } = this
     const command = 'example'
     const callback = (ctx) => expect(ctx).to.be.a('object')
     const { actions: { hears } } = bot.hears(command, callback)
@@ -82,6 +91,7 @@ describe('Botact', () => {
   })
 
   it('ADD reserved command', () => {
+    const { bot } = this
     const callback = (ctx) => expect(ctx).to.be.a('object')
     const { actions: { on } } = bot.on(callback)
 
@@ -96,6 +106,14 @@ describe('Botact', () => {
       }
     }, {
       end: () => {}
+    })
+  })
+
+  it('SEND message', async () => {
+    const { bot } = this
+
+    bot.reply(145003487, 'Hello, world!', null, (body) => {
+      expect(body).to.be.a('number')
     })
   })
 })
