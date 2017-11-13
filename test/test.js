@@ -90,6 +90,28 @@ describe('Botact', () => {
     })
   })
 
+  it('ADD hears [regex]', () => {
+    const { bot } = this
+    const command = /example/i
+    const callback = (ctx) => expect(ctx).to.be.a('object')
+    const { actions: { hears } } = bot.hears(command, callback)
+
+    expect(hears)
+      .to.be.a('object')
+      .to.have.property(command)
+
+    bot.listen({
+      body: {
+        type: 'message_new',
+        object: {
+          body: 'This is example!'
+        }
+      }
+    }, {
+      end: () => {}
+    })
+  })
+
   it('ADD reserved command', () => {
     const { bot } = this
     const callback = (ctx) => expect(ctx).to.be.a('object')
