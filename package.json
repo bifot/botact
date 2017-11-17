@@ -1,12 +1,12 @@
 {
   "name": "botact",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "A framework for creating VK bots on callback API.",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint -c .eslintrc.json .",
-    "fix": "eslint -c .eslintrc.json . --fix"
+    "lint": "eslint .",
+    "fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,7 @@
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1"

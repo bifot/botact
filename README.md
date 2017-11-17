@@ -31,20 +31,13 @@ const bot = new Botact({
 })
 
 bot.command('start', ({ reply }) => reply('This is start!'))
-
-bot.hears('car', ({ reply }) => reply('I love Tesla!'))
-
+bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
+bot.event('group_join', ({ reply }) => reply('Thanks!'))
 bot.on(({ reply }) => reply('What?'))
 
-bot.event('group_join', ({ reply }) => reply('Thanks for subscribe!'))
-
 app.use(bodyParser.json())
-
 app.post('/', bot.listen)
-
-app.listen(process.env.PORT, () => {
-  console.log(`Listen on ${process.env.PORT}`)
-})
+app.listen(process.env.PORT)
 ```
 
 ## Methods

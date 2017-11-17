@@ -8,25 +8,21 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot
-  .addScene('wizard',
-    ({ reply, scene: { next } }) => {
-      next({ date: new Date() })
-      reply('Write me something!')
-    },
-    ({ reply, body, session: { date }, scene: { leave } }) => {
-      leave()
-      reply(`You wrote: ${body} at ${date.toString()}`)
-    }
-  )
-  .command([ 'join', 'scene' ], ({ scene: { join } }) => join('wizard'))
-  .hears([ 'first', 'two' ], ({ reply }) => reply('Numbers...'))
-  .on(({ reply }) => reply('What did you said?'))
+bot.addScene('wizard',
+  ({ reply, scene: { next } }) => {
+    next({ date: new Date() })
+    reply('Write me something!')
+  },
+  ({ reply, body, session: { date }, scene: { leave } }) => {
+    leave()
+    reply(`You wrote: ${body} at ${date.toString()}`)
+  }
+)
+
+bot.command([ 'join', 'scene' ], ({ scene: { join } }) => join('wizard'))
+bot.hears([ 'first', 'two' ], ({ reply }) => reply('Numbers...'))
+bot.on(({ reply }) => reply('What did you said?'))
 
 app.use(bodyParser.json())
-
 app.post('/', bot.listen)
-
-app.listen(process.env.PORT, () => {
-  console.log(`Listen on ${process.env.PORT}`)
-})
+app.listen(process.env.PORT)

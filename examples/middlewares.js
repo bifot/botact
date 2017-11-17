@@ -9,18 +9,9 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot
-  .use((ctx) => {
-    ctx.date = new Date()
-  })
-  .on(({ reply, date }) => {
-    reply(`The date of the message is ${date}`)
-  })
+bot.use(ctx => ctx.date = new Date())
+bot.on(({ reply, date }) => reply(`The date of the message is ${date}`))
 
 app.use(bodyParser.json())
-
 app.post('/', bot.listen)
-
-app.listen(process.env.PORT, () => {
-  console.log(`Listen on ${process.env.PORT}`)
-})
+app.listen(process.env.PORT)

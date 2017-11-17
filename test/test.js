@@ -14,49 +14,38 @@ describe('Botact', () => {
   })
 
   it('GET options', () => {
-    const { bot } = this
-    const options = bot.options
-
-    expect(bot.options)
+    expect(this.bot.options)
       .to.be.a('object')
       .to.have.all.keys([ 'token', 'confirmation' ])
   })
 
   it('SET options', () => {
-    const { bot } = this
+    this.bot.options = { foo: 'bar' }
 
-    bot.options = { foo: 'bar' }
-
-    const options = bot.options
-
-    expect(options)
+    expect(this.bot.options)
       .to.be.a('object')
       .to.have.all.keys([ 'token', 'confirmation', 'foo' ])
   })
 
   it('DELETE options', () => {
-    const { bot } = this
+    this.bot.deleteOptions([ 'confirmation', 'foo' ])
 
-    bot.deleteOptions([ 'confirmation', 'foo' ])
-
-    const options = bot.options
-
-    expect(options)
+    expect(this.bot.options)
       .to.be.a('object')
       .to.have.all.keys([ 'token' ])
   })
 
   it('ADD command', () => {
-    const { bot } = this
     const command = 'example'
     const callback = (ctx) => expect(ctx).to.be.a('object')
-    const { actions: { commands } } = bot.command(command, callback)
 
-    expect(commands)
+    this.bot.command(command, callback)
+
+    expect(this.bot.actions.commands)
       .to.be.a('object')
       .to.have.property(command)
 
-    bot.listen({
+    this.bot.listen({
       body: {
         type: 'message_new',
         object: {
@@ -69,38 +58,16 @@ describe('Botact', () => {
   })
 
   it('ADD hears', () => {
-    const { bot } = this
     const command = 'example'
     const callback = (ctx) => expect(ctx).to.be.a('object')
-    const { actions: { hears } } = bot.hears(command, callback)
 
-    expect(hears)
+    this.bot.hears(command, callback)
+
+    expect(this.bot.actions.hears)
       .to.be.a('object')
       .to.have.property(command)
 
-    bot.listen({
-      body: {
-        type: 'message_new',
-        object: {
-          body: 'This is example!'
-        }
-      }
-    }, {
-      end: () => {}
-    })
-  })
-
-  it('ADD hears [regex]', () => {
-    const { bot } = this
-    const command = /example/i
-    const callback = (ctx) => expect(ctx).to.be.a('object')
-    const { actions: { hears } } = bot.hears(command, callback)
-
-    expect(hears)
-      .to.be.a('object')
-      .to.have.property(command)
-
-    bot.listen({
+    this.bot.listen({
       body: {
         type: 'message_new',
         object: {
@@ -113,13 +80,13 @@ describe('Botact', () => {
   })
 
   it('ADD reserved command', () => {
-    const { bot } = this
     const callback = (ctx) => expect(ctx).to.be.a('object')
-    const { actions: { on } } = bot.on(callback)
 
-    expect(on).to.be.a('function')
+    this.bot.on(callback)
 
-    bot.listen({
+    expect(this.bot.actions.on).to.be.a('function')
+
+    this.bot.listen({
       body: {
         type: 'message_new',
         object: {
@@ -132,9 +99,7 @@ describe('Botact', () => {
   })
 
   it('SEND message', async () => {
-    const { bot } = this
-
-    bot.reply(145003487, 'Hello, world!', null, (body) => {
+    this.bot.reply(145003487, 'Hello, world!', null, (body) => {
       expect(body).to.be.a('number')
     })
   })
