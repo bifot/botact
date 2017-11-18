@@ -5,6 +5,14 @@
 
 A framework for creating VK bots on callback API.
 
+## Donate 💰
+
+I'll be glad for donations for your saved time. You can send me donate via:
+
+* **Ethereum:** 0x331FeA1a0b0E9E66A647e964cF4eBE1D2E721579
+* **Bitcoin:** 1C26xXoA42Ufz5cNNPhAJY8Ykqh2QB966L
+* **QIWI:** 79522232254
+
 ## Install
 
 ```sh
