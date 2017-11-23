@@ -139,7 +139,6 @@ Call API by [execute](https://vk.com/dev/execute).
 bot.execute('users.get', {
   user_ids: 1
 }, this.settings.token, (body) => {
-  console.log(body)
   // {
   //   id: 1,
   //   first_name: 'Pavel',
@@ -158,8 +157,8 @@ bot.execute('users.get', {
 Add command w/ strict match.
 
 ```javascript
-bot.command('attach', (ctx) => {
-  ctx.reply('Do you need attachment? Take it easy!', 'wall145003487_2068')
+bot.command('start', ({ reply }) => {
+  reply('This is start!')
 })
 ```
 
@@ -167,15 +166,16 @@ bot.command('attach', (ctx) => {
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
-| command    | string    | yes       |
+| command    | string/regexp | yes       |
 | callback   | function  | yes       |
 
 Add command w/ match like RegEx.
 
 ```javascript
-bot.hears('hello', (ctx) => {
-  ctx.sendMessage(ctx.user_id, 'Did you say hello to me?!')
+bot.hears(/(car|tesla)/, ({ reply }) => {
+  reply('I love Tesla!')
 })
+
 ```
 
 ### .on(callback)
@@ -187,8 +187,8 @@ bot.hears('hello', (ctx) => {
 Add reserved callback.
 
 ```javascript
-bot.on((ctx) => {
-  ctx.reply('I don\'t understand you!')
+bot.on(({ reply }) => {
+  reply('What?')
 })
 ```
 
@@ -202,8 +202,8 @@ bot.on((ctx) => {
 Add [event](https://vk.com/dev/callback_api).
 
 ```javascript
-bot.event('group_leave', (ctx) => {
-  ctx.reply('Oh, you are left...')
+bot.event('group_join', ({ reply }) => {
+  reply('Thanks!')
 })
 ```
 
@@ -216,16 +216,13 @@ bot.event('group_leave', (ctx) => {
 Upload document.
 
 ```javascript
-bot.uploadDocument('./book.pdf')
-  .then((file) => {
-    console.log(file)
-    // {
-    //   id: 445225557
-    //   owner_id: 145003487,
-    //   title: 'book.pdf',
-    //   ...
-    // }
-  })
+await bot.uploadDocument(path.join(__dirname, 'files', 'book.pdf'))
+// {
+//   id: 445225557
+//   owner_id: 145003487,
+//   title: 'book.pdf',
+//   ...
+// }
 ```
 
 ### .uploadPhoto(file)
@@ -237,16 +234,13 @@ bot.uploadDocument('./book.pdf')
 Upload photo.
 
 ```javascript
-bot.uploadPhoto('./girl.png')
-  .then((file) => {
-    console.log(file)
-    // {
-    //   id: 456246067,
-    //   album_id: -14,
-    //   owner_id: 145003487,
-    //   ...
-    // }
-  })
+await bot.uploadPhoto(path.join(__dirname, 'files', 'girl.png')) // { id: 456246067, ... }
+// {
+//   id: 456246067,
+//   album_id: -14,
+//   owner_id: 145003487,
+//   ...
+// }
 ```
 
 ### .uploadAndSaveCoverPhoto(file)
@@ -258,15 +252,12 @@ bot.uploadPhoto('./girl.png')
 Upload and save cover.
 
 ```javascript
-bot.uploadAndSaveCoverPhoto('./cover.jpg')
-  .then((body) => {
-    console.log(body)
-    // {
-    //   response: {
-    //     images: [ [Object], [Object], [Object], [Object], [Object] ]
-    //   }
-    // }
-  })
+await bot.uploadAndSaveCoverPhoto('./cover.jpg')
+// {
+//   response: {
+//     images: [ [Object], [Object], [Object], [Object], [Object] ]
+//   }
+// }
 ```
 
 ### .reply(userId, message, attachment, callback)
@@ -349,12 +340,8 @@ bot.addScene('wizard',
 bot.command('join', ({ scene: { join } }) => join('wizard'))
 
 app.use(bodyParser.json())
-
 app.post('/', bot.listen)
-
-app.listen(process.env.PORT, () => {
-  console.log(`Listen on ${process.env.PORT}`)
-})
+app.listen(process.env.PORT)
 ```
 
 ### .addScene(name, ...callbacks)
@@ -385,7 +372,7 @@ bot.addScene('wizard',
 | -----------|:---------:| :-------:| -------:|
 | ctx        | object    | yes      | none    |
 | scene      | string    | yes      | none    |
-| body       | object    | no       | none    |
+| body       | object    | no       | {}      |
 | step       | number    | no       | 0       |
 | now        | number    | no       | true    |
 
