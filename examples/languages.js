@@ -3,11 +3,12 @@ const express = require('express')
 const path = require('path')
 const i18n = require('i18n')
 const { Botact } = require('../index')
+const { confirmation, token } = require('../config')
 
 const app = express()
 const bot = new Botact({
-  confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN
+  confirmation: process.env.CONFIRMATION || confirmation,
+  token: process.env.TOKEN || token
 })
 
 i18n.configure({

@@ -40,6 +40,7 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
+bot.before(ctx => ctx.start = true)
 bot.command('start', ({ reply }) => reply('This is start!'))
 bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
 bot.event('group_join', ({ reply }) => reply('Thanks!'))
@@ -56,6 +57,7 @@ app.listen(process.env.PORT)
 * [[getter] options](#getter-options)
 * [[setter] options](#setter-options)
 * [.deleteOptions(settings)](#deleteoptionssettings)
+* [.before(calback)](#beforecallback)
 * [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
 * [.command(command, callback)](#commandcommand-callback)
 * [.hears(command, callback)](#hearscommand-callback)
@@ -122,6 +124,22 @@ bot.deleteOptions([ 'token', 'confirmation' ])
 // {
 //   foo: 'bar'
 // }
+```
+
+### .before(calback)
+
+| Parameter  | Type      | Requried  |
+| -----------|:---------:| ---------:|
+| callback   | function  | yes       |
+
+Add callback before bot will start.
+
+```js
+bot.before(() => new Date())
+
+bot.on(({ inital }) => {
+  // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
+})
 ```
 
 ### .execute(method, settings, token, callback)

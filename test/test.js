@@ -8,9 +8,25 @@ describe('Botact', () => {
   })
 
   it('CREATE bot', () => {
-    const { bot } = this
+    expect(this.bot).to.be.a('object')
+  })
 
-    expect(bot).to.be.a('object')
+  it('ADD before callback', async () => {
+    const date = new Date()
+
+    await this.bot.before(() => date)
+
+    this.bot.command('before', ({ inital }) => expect(inital).eq(date))
+    this.bot.listen({
+      body: {
+        type: 'message_new',
+        object: {
+          body: 'before'
+        }
+      }
+    }, {
+      end: () => {}
+    })
   })
 
   it('GET options', () => {
@@ -37,9 +53,8 @@ describe('Botact', () => {
 
   it('ADD command', () => {
     const command = 'example'
-    const callback = (ctx) => expect(ctx).to.be.a('object')
 
-    this.bot.command(command, callback)
+    this.bot.command(command, (ctx) => expect(ctx).to.be.a('object'))
 
     expect(this.bot.actions.commands)
       .to.be.a('object')
@@ -59,9 +74,8 @@ describe('Botact', () => {
 
   it('ADD hears', () => {
     const command = 'example'
-    const callback = (ctx) => expect(ctx).to.be.a('object')
 
-    this.bot.hears(command, callback)
+    this.bot.hears(command, (ctx) => expect(ctx).to.be.a('object'))
 
     expect(this.bot.actions.hears)
       .to.be.a('object')

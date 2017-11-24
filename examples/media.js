@@ -1,10 +1,11 @@
 const path = require('path')
 const { Botact } = require('../index')
+const { confirmation, token, admin } = require('../config')
 
 const bot = new Botact({
-  confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN,
-  admin: process.env.ADMIN_TOKEN
+  confirmation: process.env.CONFIRMATION || confirmation,
+  token: process.env.TOKEN || token,
+  admin: process.env.ADMIN || admin
 })
 
 const uploadAttachments = async () => {

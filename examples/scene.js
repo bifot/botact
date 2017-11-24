@@ -1,11 +1,12 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const { Botact } = require('../index')
+const { confirmation, token } = require('../config')
 
 const app = express()
 const bot = new Botact({
-  confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN
+  confirmation: process.env.CONFIRMATION || confirmation,
+  token: process.env.TOKEN || token
 })
 
 bot.addScene('wizard',
