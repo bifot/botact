@@ -126,7 +126,7 @@ bot.deleteOptions([ 'token', 'confirmation' ])
 // }
 ```
 
-### .before(calback)
+### .before(callback)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
