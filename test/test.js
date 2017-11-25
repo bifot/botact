@@ -1,12 +1,11 @@
 const { expect } = require('chai')
 const { Botact } = require('../')
-const { token, confirmation } = require('../config')
 
 describe('Botact', () => {
   before(() => {
     this.bot = new Botact({
-      confirmation: process.env.CONFIRMATION || confirmation,
-      token: process.env.TOKEN || token
+      confirmation: process.env.CONFIRMATION,
+      token: process.env.TOKEN
     })
   })
 
