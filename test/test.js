@@ -14,38 +14,19 @@ describe('Botact', () => {
   })
 
   it('add before callback', async () => {
-    const date = new Date()
+    await this.bot.before(() => 'foo')
 
-    await this.bot.before(() => date)
-
-    this.bot.command('before', ({ inital }) => expect(inital).eq(date))
-    this.bot.listen({
-      body: {
-        type: 'message_new',
-        object: {
-          body: 'before'
-        }
-      }
-    }, {
-      end: () => {}
-    })
+    expect(this.bot.inital).eq('foo')
   })
 
   it('add middleware', () => {
-    const date = new Date()
+    const middleware = (ctx) => ctx.foo = 'bar'
 
-    this.bot.use(ctx => ctx.date = date)
-    this.bot.command('before', ({ date }) => expect(date).to.be.a('date'))
-    this.bot.listen({
-      body: {
-        type: 'message_new',
-        object: {
-          body: 'before'
-        }
-      }
-    }, {
-      end: () => {}
-    })
+    this.bot.use(middleware)
+
+    expect(this.bot.actions.middlewares)
+      .to.be.a('array')
+      .to.include(middleware)
   })
 
   it('get options', () => {
@@ -72,68 +53,35 @@ describe('Botact', () => {
 
   it('add command', () => {
     const command = 'example'
+    const callback = () => {}
 
-    this.bot.command(command, (ctx) => expect(ctx).to.be.a('object'))
+    this.bot.command(command, callback)
 
-    expect(this.bot.actions.commands)
-      .to.be.a('object')
-      .to.have.property(command)
+    const stringifyCommands = this.bot.actions.commands
+      .map(({ command, callback }) => JSON.stringify({ command, callback: callback.toString() }))
+    const stringifyCommand = JSON.stringify({ command, callback: callback.toString() })
 
-    this.bot.listen({
-      body: {
-        type: 'message_new',
-        object: {
-          body: command
-        }
-      }
-    }, {
-      end: () => {}
-    })
+    expect(stringifyCommands).to.include(stringifyCommand)
   })
 
   it('add hears', () => {
-    const command = 'example'
+    const command = /example/i
+    const callback = () => {}
 
-    this.bot.hears(command, (ctx) => expect(ctx).to.be.a('object'))
+    this.bot.hears(command, callback)
 
-    expect(this.bot.actions.hears)
-      .to.be.a('object')
-      .to.have.property(command)
+    const stringifyCommands = this.bot.actions.hears
+      .map(({ command, callback }) => JSON.stringify({ command: command.toString(), callback: callback.toString() }))
+    const stringifyCommand = JSON.stringify({ command: command.toString(), callback: callback.toString() })
 
-    this.bot.listen({
-      body: {
-        type: 'message_new',
-        object: {
-          body: 'This is example!'
-        }
-      }
-    }, {
-      end: () => {}
-    })
+    expect(stringifyCommands).to.include(stringifyCommand)
   })
 
   it('add reserved command', () => {
-    const callback = (ctx) => expect(ctx).to.be.a('object')
+    const callback = () => {}
 
     this.bot.on(callback)
 
-    expect(this.bot.actions.on).to.be.a('function')
-
-    this.bot.listen({
-      body: {
-        type: 'message_new',
-        object: {
-          body: 'Start reserved callback'
-        }
-      }
-    }, {
-      end: () => {}
-    })
-  })
-
-  it('send message', async () => {
-    this.bot.reply(145003487, 'Hello, world!', null, (body) => {
-      expect(body).to.be.a('number')
-    })
+    expect(this.bot.actions.on).eq(callback)
   })
 })

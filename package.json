@@ -1,10 +1,11 @@
 {
   "name": "botact",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "A framework for creating VK bots on callback API.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit",
+    "example": "nodemon examples/simple.js",
     "lint": "eslint .",
     "fix": "eslint . --fix"
   },
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/bifot/botact#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.17.1",
     "chai": "^4.1.2",
     "dotenv": "^4.0.0",
@@ -39,7 +41,8 @@
     "path": "^0.12.7",
     "redis": "^2.8.0",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "util": "^0.10.3"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

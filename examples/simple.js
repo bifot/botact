@@ -10,10 +10,9 @@ const bot = new Botact({
   token: process.env.TOKEN || token
 })
 
-bot.before(ctx => ctx.start_date = new Date())
 bot.command('start', ({ reply }) => reply('This is start!'))
 bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
-bot.event('group_join', ({ reply }) => reply('Thanks!'))
+bot.event([ 'group_join', 'wall_repost' ], ({ reply }) => reply('Thanks!'))
 bot.on(({ reply }) => reply('What?'))
 
 app.use(bodyParser.json())
