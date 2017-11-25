@@ -58,6 +58,7 @@ app.listen(process.env.PORT)
 * [[setter] options](#setter-options)
 * [.deleteOptions(settings)](#deleteoptionssettings)
 * [.before(callback)](#beforecallback)
+* [.use(callback)](#usecallback)
 * [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
 * [.command(command, callback)](#commandcommand-callback)
 * [.hears(command, callback)](#hearscommand-callback)
@@ -138,6 +139,22 @@ Add callback before bot will start.
 bot.before(() => new Date())
 
 bot.on(({ inital }) => {
+  // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
+})
+```
+
+### .use(callback)
+
+| Parameter  | Type      | Requried  |
+| -----------|:---------:| ---------:|
+| callback   | function  | yes       |
+
+Add middleware.
+
+```js
+bot.use((ctx) => ctx.date = new Date())
+
+bot.on(({ date }) => {
   // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
 })
 ```
