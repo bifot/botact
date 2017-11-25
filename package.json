@@ -4,7 +4,7 @@
   "description": "A framework for creating VK bots on callback API.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --exit",
     "lint": "eslint .",
     "fix": "eslint . --fix"
   },
