@@ -1,13 +1,14 @@
 [![botact](https://img.shields.io/npm/v/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
+[![botact](https://img.shields.io/node/v/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
+[![botact](https://img.shields.io/travis/bifot/botact.svg?branch=master&style=flat-square)](https://www.npmjs.com/package/botact/)
+[![botact](https://img.shields.io/npm/dm/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
 [![botact](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-# Botact
+# botact.js
 
 A framework for creating VK bots on callback API.
 
 ## Donate 💰
-
-*With this framework you can save up to 12 hours per bot*.
 
 Thank you for donations.
 
