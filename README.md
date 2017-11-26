@@ -2,7 +2,6 @@
 [![botact](https://img.shields.io/node/v/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
 [![botact](https://img.shields.io/npm/dm/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
 [![botact](https://img.shields.io/travis/bifot/botact.svg?branch=master&style=flat-square)](https://www.npmjs.com/package/botact/)
-[![botact](https://coveralls.io/repos/github/bifot/botact/badge.svg?branch=master&style=flat-square)](https://coveralls.io/github/bifot/botact?branch=master)
 [![botact](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
 # botact.js
