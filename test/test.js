@@ -1,7 +1,14 @@
 const { expect } = require('chai')
+const { RedisClient, createClient, Multi } = require('redis')
+const { promisifyAll } = require('bluebird')
 const { Botact } = require('../')
 
-describe('Botact', () => {
+promisifyAll(RedisClient.prototype)
+promisifyAll(Multi.prototype)
+
+const client = createClient()
+
+describe('botact', () => {
   before(() => {
     this.bot = new Botact({
       confirmation: process.env.CONFIRMATION,
@@ -83,5 +90,73 @@ describe('Botact', () => {
     this.bot.on(callback)
 
     expect(this.bot.actions.on).eq(callback)
+  })
+
+  it('add scene', () => {
+    const scene = 'simple'
+    const callbacks = [ () => {}, () => {} ]
+
+    this.bot.addScene(scene, callbacks)
+
+    expect(this.bot.flow.scenes).to.deep.equal({ [scene]: callbacks })
+  })
+
+  it('join scene', async () => {
+    const userId = 1
+    const sceneName = 'simple'
+    const sessionInital = { foo: 'bar' }
+
+    await this.bot.joinScene({
+      user_id: userId,
+      redis: client,
+      flow: this.bot.flow
+    }, sceneName, sessionInital)
+
+    const {
+      scene,
+      step,
+      session
+    } = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
+
+    expect(scene).eq(sceneName)
+    expect(step).eq(0)
+    expect(session).to.deep.equal(sessionInital)
+  })
+
+  it('next scene', async () => {
+    const userId = 1
+    const sceneName = 'simple'
+    const sessionInital = { foo: 'bar' }
+    const sessionExtra = { bar: 'foo' }
+
+    await this.bot.nextScene({
+      user_id: userId,
+      redis: client,
+      flow: this.bot.flow
+    }, sessionExtra)
+
+    const {
+      scene,
+      step,
+      session
+    } = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
+
+    expect(scene).eq(sceneName)
+    expect(step).eq(1)
+    expect(session).to.deep.equal({ ...sessionInital, ...sessionExtra })
+  })
+
+  it('leave scene', async () => {
+    const userId = 1
+    const sceneName = 'simple'
+
+    this.bot.leaveScene({
+      user_id: userId,
+      redis: client
+    })
+
+    const flow = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
+
+    expect(flow).eq(null)
   })
 })
