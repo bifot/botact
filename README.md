@@ -41,7 +41,6 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.before(ctx => ctx.start = true)
 bot.command('start', ({ reply }) => reply('This is start!'))
 bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
 bot.event('group_join', ({ reply }) => reply('Thanks!'))
