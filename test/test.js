@@ -32,6 +32,16 @@ describe('botact', () => {
     const middleware = (ctx) => ctx.foo = 'bar'
 
     this.bot.use(middleware)
+    this.bot.on(({ foo }) => expect(foo).eq('bar'))
+
+    this.sendRequest({
+      type: 'message_new',
+      object: {
+        body: {
+          user_id: Math.random()
+        }
+      }
+    })
 
     expect(this.bot.actions.middlewares)
       .to.be.a('array')
