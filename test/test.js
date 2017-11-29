@@ -14,6 +14,8 @@ describe('botact', () => {
       confirmation: process.env.CONFIRMATION,
       token: process.env.TOKEN
     })
+
+    this.sendRequest = (body) => this.bot.listen({ body }, { end() {} })
   })
 
   it('create bot', () => {
@@ -60,9 +62,16 @@ describe('botact', () => {
 
   it('add command', () => {
     const command = 'example'
-    const callback = () => {}
+    const callback = (ctx) => expect(ctx).to.be.a('object')
 
     this.bot.command(command, callback)
+
+    this.sendRequest({
+      type: 'message_new',
+      object: {
+        body: command
+      }
+    })
 
     const stringifyCommands = this.bot.actions.commands
       .map(({ command, callback }) => JSON.stringify({ command, callback: callback.toString() }))
@@ -73,9 +82,16 @@ describe('botact', () => {
 
   it('add hears', () => {
     const command = /example/i
-    const callback = () => {}
+    const callback = (ctx) => expect(ctx).to.be.a('object')
 
     this.bot.hears(command, callback)
+
+    this.sendRequest({
+      type: 'message_new',
+      object: {
+        body: command.toString()
+      }
+    })
 
     const stringifyCommands = this.bot.actions.hears
       .map(({ command, callback }) => JSON.stringify({ command: command.toString(), callback: callback.toString() }))
@@ -84,12 +100,39 @@ describe('botact', () => {
     expect(stringifyCommands).to.include(stringifyCommand)
   })
 
-  it('add reserved command', () => {
-    const callback = () => {}
+  it('add on', () => {
+    const callback = (ctx) => expect(ctx).to.be.a('object')
 
     this.bot.on(callback)
 
+    this.sendRequest({
+      type: 'message_new',
+      object: {
+        body: Math.random()
+      }
+    })
+
     expect(this.bot.actions.on).eq(callback)
+  })
+
+  it('add event', () => {
+    const event = 'group_join'
+    const callback = (ctx) => expect(ctx).to.be.a('object')
+
+    this.bot.event(event, callback)
+
+    this.sendRequest({
+      type: event,
+      object: {
+        user_id: Math.random()
+      }
+    })
+
+    const stringifyEvents = this.bot.actions.events
+      .map(({ command, callback }) => JSON.stringify({ event, callback: callback.toString() }))
+    const stringifyEvent = JSON.stringify({ event, callback: callback.toString() })
+
+    expect(stringifyEvents).to.include(stringifyEvent)
   })
 
   it('add scene', () => {
