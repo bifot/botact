@@ -6,7 +6,7 @@
 
 # botact.js
 
-A framework for creating VK bots on callback API.
+Botact enables developers to focus on writing reusable application logic instead of spending time building infrastructure.
 
 ## Donate 💰
 
