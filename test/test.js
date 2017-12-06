@@ -1,7 +1,10 @@
 const { expect } = require('chai')
+const path = require('path')
 const { RedisClient, createClient, Multi } = require('redis')
 const { promisifyAll } = require('bluebird')
 const { Botact } = require('../')
+
+require('dotenv').config()
 
 promisifyAll(RedisClient.prototype)
 promisifyAll(Multi.prototype)
@@ -12,6 +15,7 @@ describe('botact', () => {
   before(() => {
     this.bot = new Botact({
       confirmation: process.env.CONFIRMATION,
+      group_id: process.env.GROUP_ID,
       token: process.env.TOKEN
     })
 
@@ -51,7 +55,7 @@ describe('botact', () => {
   it('get options', () => {
     expect(this.bot.options)
       .to.be.a('object')
-      .to.have.all.keys([ 'token', 'confirmation' ])
+      .to.have.all.keys([ 'token', 'confirmation', 'group_id' ])
   })
 
   it('set options', () => {
@@ -59,7 +63,7 @@ describe('botact', () => {
 
     expect(this.bot.options)
       .to.be.a('object')
-      .to.have.all.keys([ 'token', 'confirmation', 'foo' ])
+      .to.have.all.keys([ 'token', 'confirmation', 'group_id', 'foo' ])
   })
 
   it('delete options', () => {
@@ -67,7 +71,7 @@ describe('botact', () => {
 
     expect(this.bot.options)
       .to.be.a('object')
-      .to.have.all.keys([ 'token' ])
+      .to.have.all.keys([ 'token', 'group_id' ])
   })
 
   it('add command', () => {
@@ -211,5 +215,17 @@ describe('botact', () => {
     const flow = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
 
     expect(flow).eq(null)
+  })
+
+  it('upload cover', async () => {
+    const cover = await this.bot.uploadCover(path.join(__dirname, '../examples/files/cover.png'), {
+      crop_x2: 1590,
+      crop_y2: 400
+    })
+
+    const { response } = cover
+
+    expect(cover).to.be.a('object').to.have.all.keys([ 'response' ])
+    expect(response).to.be.a('object').to.have.all.keys([ 'images' ])
   })
 })
