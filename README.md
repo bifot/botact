@@ -66,7 +66,7 @@ app.listen(process.env.PORT)
 * [.event(event, callback)](#eventevent-callback)
 * [.uploadDocument(file)](#uploaddocumentfile)
 * [.uploadPhoto(file)](#uploadphotofile)
-* [.uploadAndSaveCoverPhoto(file)](#uploadandsavecoverphotofile)
+* [.uploadCover(file)](#uploadcover)
 * [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
 
@@ -166,7 +166,7 @@ bot.on(({ date }) => {
 | method     | string    | yes       |
 | settings   | object    | yes       |
 | token      | string    | yes       |
-| callback   | function  | no       |
+| callback   | function  | no        |
 
 Call API by [execute](https://vk.com/dev/execute).
 
@@ -247,11 +247,12 @@ bot.event('group_join', ({ reply }) => {
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
 | file       | string    | yes       |
+| type       | string    | no        |
 
 Upload document.
 
 ```javascript
-await bot.uploadDocument(path.join(__dirname, 'files', 'book.pdf'))
+await bot.uploadDocument('./book.pdf')
 // {
 //   id: 445225557
 //   owner_id: 145003487,
@@ -269,7 +270,7 @@ await bot.uploadDocument(path.join(__dirname, 'files', 'book.pdf'))
 Upload photo.
 
 ```javascript
-await bot.uploadPhoto(path.join(__dirname, 'files', 'girl.png')) // { id: 456246067, ... }
+await bot.uploadPhoto('./girl.png') // { id: 456246067, ... }
 // {
 //   id: 456246067,
 //   album_id: -14,
@@ -278,16 +279,17 @@ await bot.uploadPhoto(path.join(__dirname, 'files', 'girl.png')) // { id: 456246
 // }
 ```
 
-### .uploadAndSaveCoverPhoto(file)
+### .uploadCover(file)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
 | file       | string    | yes       |
+| settings   | object    | no        |
 
 Upload and save cover.
 
 ```javascript
-await bot.uploadAndSaveCoverPhoto('./cover.jpg')
+await bot.uploadAndSaveCoverPhoto('./cover.jpg', { crop_x2: 1590 })
 // {
 //   response: {
 //     images: [ [Object], [Object], [Object], [Object], [Object] ]
