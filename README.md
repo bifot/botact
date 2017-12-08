@@ -1,7 +1,7 @@
 [![botact](https://img.shields.io/npm/v/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
-[![botact](https://img.shields.io/node/v/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
+[![botact](https://img.shields.io/node/v/botact.svg?style=flat-square)](https://nodejs.org/en/)
 [![botact](https://img.shields.io/npm/dm/botact.svg?style=flat-square)](https://www.npmjs.com/package/botact/)
-[![botact](https://img.shields.io/travis/bifot/botact.svg?branch=master&style=flat-square)](https://www.npmjs.com/package/botact/)
+[![botact](https://img.shields.io/travis/bifot/botact.svg?branch=master&style=flat-square)](https://travis-ci.org/bifot/botact/)
 [![botact](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
 # botact.js
@@ -64,9 +64,9 @@ app.listen(process.env.PORT)
 * [.hears(command, callback)](#hearscommand-callback)
 * [.on(callback)](#oncallback)
 * [.event(event, callback)](#eventevent-callback)
-* [.uploadDocument(file)](#uploaddocumentfile)
+* [.uploadDocument(file, type)](#uploaddocumentfile-type)
 * [.uploadPhoto(file)](#uploadphotofile)
-* [.uploadCover(file)](#uploadcover)
+* [.uploadCover(file, settings)](#uploadcover-settings)
 * [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
 
@@ -152,7 +152,7 @@ bot.on(({ inital }) => {
 Add middleware.
 
 ```js
-bot.use((ctx) => ctx.date = new Date())
+bot.use(ctx => ctx.date = new Date())
 
 bot.on(({ date }) => {
   // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
@@ -201,7 +201,7 @@ bot.command('start', ({ reply }) => {
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
-| command    | string/regexp | yes       |
+| command    | string/regexp | yes   |
 | callback   | function  | yes       |
 
 Add command w/ match like RegEx.
@@ -242,7 +242,7 @@ bot.event('group_join', ({ reply }) => {
 })
 ```
 
-### .uploadDocument(file)
+### .uploadDocument(file, type)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
@@ -279,7 +279,7 @@ await bot.uploadPhoto('./girl.png') // { id: 456246067, ... }
 // }
 ```
 
-### .uploadCover(file)
+### .uploadCover(file, settings)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
@@ -289,11 +289,15 @@ await bot.uploadPhoto('./girl.png') // { id: 456246067, ... }
 Upload and save cover.
 
 ```javascript
-await bot.uploadAndSaveCoverPhoto('./cover.jpg', { crop_x2: 1590 })
+await bot.uploadCover('./cover.jpg', { crop_x2: 1590 })
 // {
-//   response: {
-//     images: [ [Object], [Object], [Object], [Object], [Object] ]
-//   }
+//   images: [
+//     [Object],
+//     [Object],
+//     [Object],
+//     [Object],
+//     [Object]
+//   ]
 // }
 ```
 

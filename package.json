@@ -1,7 +1,7 @@
 {
   "name": "botact",
-  "version": "1.9.1",
-  "description": "A framework for creating VK bots on callback API.",
+  "version": "1.9.2",
+  "description": "Botact enables developers to focus on writing reusable application logic instead of spending time building infrastructure.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit",
@@ -20,7 +20,7 @@
     "api"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.3.0"
   },
   "author": "Mikhail Semin",
   "license": "MIT",

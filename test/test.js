@@ -4,8 +4,6 @@ const { RedisClient, createClient, Multi } = require('redis')
 const { promisifyAll } = require('bluebird')
 const { Botact } = require('../')
 
-require('dotenv').config()
-
 promisifyAll(RedisClient.prototype)
 promisifyAll(Multi.prototype)
 
@@ -219,15 +217,21 @@ describe('botact', function () {
     expect(flow).eq(null)
   })
 
+  it('upload photo', async () => {
+    const photo = await this.bot.uploadPhoto(path.join(__dirname, './files/cover.png'))
+
+    expect(photo).to.be.a('object').to.contains.keys([ 'id', 'album_id', 'owner_id', 'user_id' ])
+  })
+
   it('upload cover', async () => {
-    const cover = await this.bot.uploadCover(path.join(__dirname, '../examples/files/cover.png'), {
+    const cover = await this.bot.uploadCover(path.join(__dirname, './files/cover.png'), {
       crop_x2: 1590,
       crop_y2: 400
     })
 
-    const { response } = cover
+    const { images } = cover
 
-    expect(cover).to.be.a('object').to.have.all.keys([ 'response' ])
-    expect(response).to.be.a('object').to.have.all.keys([ 'images' ])
+    expect(cover).to.be.a('object').to.have.all.keys([ 'images' ])
+    expect(images).to.be.a('array')
   })
 })
