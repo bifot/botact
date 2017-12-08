@@ -66,7 +66,7 @@ app.listen(process.env.PORT)
 * [.event(event, callback)](#eventevent-callback)
 * [.uploadDocument(file, type)](#uploaddocumentfile-type)
 * [.uploadPhoto(file)](#uploadphotofile)
-* [.uploadCover(file, settings)](#uploadcover-settings)
+* [.uploadCover(file, settings)](#uploadcoverfile-settings)
 * [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
 
