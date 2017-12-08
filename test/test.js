@@ -11,7 +11,9 @@ promisifyAll(Multi.prototype)
 
 const client = createClient()
 
-describe('botact', () => {
+describe('botact', function () {
+  this.timeout(5000)
+
   before(() => {
     this.bot = new Botact({
       confirmation: process.env.CONFIRMATION,

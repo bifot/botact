@@ -1,6 +1,6 @@
 {
   "name": "botact",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "A framework for creating VK bots on callback API.",
   "main": "index.js",
   "scripts": {
