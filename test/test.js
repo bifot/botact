@@ -8,37 +8,52 @@ promisifyAll(RedisClient.prototype)
 promisifyAll(Multi.prototype)
 
 const client = createClient()
+const bot = new Botact({
+  confirmation: process.env.CONFIRMATION,
+  group_id: process.env.GROUP_ID,
+  token: process.env.TOKEN
+})
 
-describe('botact', function () {
-  this.timeout(5000)
+const callApi = (body) => bot.listen({ body }, { end() {} })
 
-  before(() => {
-    this.bot = new Botact({
-      confirmation: process.env.CONFIRMATION,
-      group_id: process.env.GROUP_ID,
-      token: process.env.TOKEN
-    })
-
-    this.sendRequest = (body) => this.bot.listen({ body }, { end() {} })
+describe('options', () => {
+  it('get options', () => {
+    expect(bot.options)
+      .to.be.a('object')
+      .to.have.all.keys([ 'token', 'confirmation', 'group_id' ])
   })
 
-  it('create bot', () => {
-    expect(this.bot).to.be.a('object')
+  it('set options', () => {
+    bot.options = { foo: 'bar' }
+
+    expect(bot.options)
+      .to.be.a('object')
+      .to.have.all.keys([ 'token', 'confirmation', 'group_id', 'foo' ])
   })
 
+  it('delete options', () => {
+    bot.deleteOptions([ 'confirmation', 'foo' ])
+
+    expect(bot.options)
+      .to.be.a('object')
+      .to.have.all.keys([ 'token', 'group_id' ])
+  })
+})
+
+describe('events', () => {
   it('add before callback', async () => {
-    await this.bot.before(() => 'foo')
+    await bot.before(() => 'foo')
 
-    expect(this.bot.inital).eq('foo')
+    expect(bot.inital).eq('foo')
   })
 
   it('add middleware', () => {
     const middleware = (ctx) => ctx.foo = 'bar'
 
-    this.bot.use(middleware)
-    this.bot.on(({ foo }) => expect(foo).eq('bar'))
+    bot.use(middleware)
+    bot.on(({ foo }) => expect(foo).eq('bar'))
 
-    this.sendRequest({
+    callApi({
       type: 'message_new',
       object: {
         body: {
@@ -47,47 +62,25 @@ describe('botact', function () {
       }
     })
 
-    expect(this.bot.actions.middlewares)
+    expect(bot.actions.middlewares)
       .to.be.a('array')
       .to.include(middleware)
-  })
-
-  it('get options', () => {
-    expect(this.bot.options)
-      .to.be.a('object')
-      .to.have.all.keys([ 'token', 'confirmation', 'group_id' ])
-  })
-
-  it('set options', () => {
-    this.bot.options = { foo: 'bar' }
-
-    expect(this.bot.options)
-      .to.be.a('object')
-      .to.have.all.keys([ 'token', 'confirmation', 'group_id', 'foo' ])
-  })
-
-  it('delete options', () => {
-    this.bot.deleteOptions([ 'confirmation', 'foo' ])
-
-    expect(this.bot.options)
-      .to.be.a('object')
-      .to.have.all.keys([ 'token', 'group_id' ])
   })
 
   it('add command', () => {
     const command = 'example'
     const callback = (ctx) => expect(ctx).to.be.a('object')
 
-    this.bot.command(command, callback)
+    bot.command(command, callback)
 
-    this.sendRequest({
+    callApi({
       type: 'message_new',
       object: {
         body: command
       }
     })
 
-    const stringifyCommands = this.bot.actions.commands
+    const stringifyCommands = bot.actions.commands
       .map(({ command, callback }) => JSON.stringify({ command, callback: callback.toString() }))
     const stringifyCommand = JSON.stringify({ command, callback: callback.toString() })
 
@@ -98,16 +91,16 @@ describe('botact', function () {
     const command = /example/i
     const callback = (ctx) => expect(ctx).to.be.a('object')
 
-    this.bot.hears(command, callback)
+    bot.hears(command, callback)
 
-    this.sendRequest({
+    callApi({
       type: 'message_new',
       object: {
         body: command.toString()
       }
     })
 
-    const stringifyCommands = this.bot.actions.hears
+    const stringifyCommands = bot.actions.hears
       .map(({ command, callback }) => JSON.stringify({ command: command.toString(), callback: callback.toString() }))
     const stringifyCommand = JSON.stringify({ command: command.toString(), callback: callback.toString() })
 
@@ -117,45 +110,47 @@ describe('botact', function () {
   it('add on', () => {
     const callback = (ctx) => expect(ctx).to.be.a('object')
 
-    this.bot.on(callback)
+    bot.on(callback)
 
-    this.sendRequest({
+    callApi({
       type: 'message_new',
       object: {
         body: Math.random()
       }
     })
 
-    expect(this.bot.actions.on).eq(callback)
+    expect(bot.actions.on).eq(callback)
   })
 
   it('add event', () => {
     const event = 'group_join'
     const callback = (ctx) => expect(ctx).to.be.a('object')
 
-    this.bot.event(event, callback)
+    bot.event(event, callback)
 
-    this.sendRequest({
+    callApi({
       type: event,
       object: {
         user_id: Math.random()
       }
     })
 
-    const stringifyEvents = this.bot.actions.events
+    const stringifyEvents = bot.actions.events
       .map(({ command, callback }) => JSON.stringify({ event, callback: callback.toString() }))
     const stringifyEvent = JSON.stringify({ event, callback: callback.toString() })
 
     expect(stringifyEvents).to.include(stringifyEvent)
   })
+})
 
+describe('scene', () => {
   it('add scene', () => {
     const scene = 'simple'
     const callbacks = [ () => {}, () => {} ]
 
-    this.bot.addScene(scene, callbacks)
+    bot.addScene(scene, callbacks)
 
-    expect(this.bot.flow.scenes).to.deep.equal({ [scene]: callbacks })
+    expect(bot.flow.scenes).to.deep.equal({ [scene]: callbacks })
   })
 
   it('join scene', async () => {
@@ -163,17 +158,17 @@ describe('botact', function () {
     const sceneName = 'simple'
     const sessionInital = { foo: 'bar' }
 
-    await this.bot.joinScene({
+    await bot.joinScene({
       user_id: userId,
       redis: client,
-      flow: this.bot.flow
+      flow: bot.flow
     }, sceneName, sessionInital)
 
     const {
       scene,
       step,
       session
-    } = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
+    } = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${userId}`))
 
     expect(scene).eq(sceneName)
     expect(step).eq(0)
@@ -186,17 +181,17 @@ describe('botact', function () {
     const sessionInital = { foo: 'bar' }
     const sessionExtra = { bar: 'foo' }
 
-    await this.bot.nextScene({
+    await bot.nextScene({
       user_id: userId,
       redis: client,
-      flow: this.bot.flow
+      flow: bot.flow
     }, sessionExtra)
 
     const {
       scene,
       step,
       session
-    } = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
+    } = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${userId}`))
 
     expect(scene).eq(sceneName)
     expect(step).eq(1)
@@ -207,24 +202,28 @@ describe('botact', function () {
     const userId = 1
     const sceneName = 'simple'
 
-    this.bot.leaveScene({
+    bot.leaveScene({
       user_id: userId,
       redis: client
     })
 
-    const flow = JSON.parse(await client.getAsync(`flow:${this.bot.options.token}:${userId}`))
+    const flow = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${userId}`))
 
     expect(flow).eq(null)
   })
+})
+
+describe('upload', function () {
+  this.timeout(5000)
 
   it('upload photo', async () => {
-    const photo = await this.bot.uploadPhoto(path.join(__dirname, './files/cover.png'))
+    const photo = await bot.uploadPhoto(path.join(__dirname, './files/cover.png'))
 
     expect(photo).to.be.a('object').to.contains.keys([ 'id', 'album_id', 'owner_id', 'user_id' ])
   })
 
   it('upload cover', async () => {
-    const cover = await this.bot.uploadCover(path.join(__dirname, './files/cover.png'), {
+    const cover = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
       crop_x2: 1590,
       crop_y2: 400
     })
