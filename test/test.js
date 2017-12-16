@@ -80,11 +80,10 @@ describe('events', () => {
       }
     })
 
-    const stringifyCommands = bot.actions.commands
-      .map(({ command, callback }) => JSON.stringify({ command, callback: callback.toString() }))
-    const stringifyCommand = JSON.stringify({ command, callback: callback.toString() })
-
-    expect(stringifyCommands).to.include(stringifyCommand)
+    expect(bot.actions.commands).to.deep.include({
+      command,
+      callback
+    })
   })
 
   it('add hears', () => {
@@ -100,11 +99,10 @@ describe('events', () => {
       }
     })
 
-    const stringifyCommands = bot.actions.hears
-      .map(({ command, callback }) => JSON.stringify({ command: command.toString(), callback: callback.toString() }))
-    const stringifyCommand = JSON.stringify({ command: command.toString(), callback: callback.toString() })
-
-    expect(stringifyCommands).to.include(stringifyCommand)
+    expect(bot.actions.hears).to.deep.include({
+      command,
+      callback
+    })
   })
 
   it('add on', () => {
@@ -119,7 +117,29 @@ describe('events', () => {
       }
     })
 
-    expect(bot.actions.on).eq(callback)
+    expect(bot.actions.on).to.deep.include({
+      type: 'message',
+      callback
+    })
+  })
+
+  it('add on [audio]', () => {
+    const callback = (ctx) => expect(ctx).to.be.a('object')
+
+    bot.on('audio', callback)
+
+    callApi({
+      type: 'message_new',
+      object: {
+        body: Math.random(),
+        attachments: [ { type: 'audio' } ]
+      }
+    })
+
+    expect(bot.actions.on).to.deep.include({
+      type: 'audio',
+      callback
+    })
   })
 
   it('add event', () => {
@@ -135,11 +155,10 @@ describe('events', () => {
       }
     })
 
-    const stringifyEvents = bot.actions.events
-      .map(({ command, callback }) => JSON.stringify({ event, callback: callback.toString() }))
-    const stringifyEvent = JSON.stringify({ event, callback: callback.toString() })
-
-    expect(stringifyEvents).to.include(stringifyEvent)
+    expect(bot.actions.events).to.deep.include({
+      event,
+      callback
+    })
   })
 })
 

@@ -62,7 +62,7 @@ app.listen(process.env.PORT)
 * [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
 * [.command(command, callback)](#commandcommand-callback)
 * [.hears(command, callback)](#hearscommand-callback)
-* [.on(callback)](#oncallback)
+* [.on(type, callback)](#ontype-callback)
 * [.event(event, callback)](#eventevent-callback)
 * [.uploadDocument(file, type)](#uploaddocumentfile-type)
 * [.uploadPhoto(file)](#uploadphotofile)
@@ -192,9 +192,7 @@ bot.execute('users.get', {
 Add command w/ strict match.
 
 ```javascript
-bot.command('start', ({ reply }) => {
-  reply('This is start!')
-})
+bot.command('start', ({ reply }) => reply('This is start!'))
 ```
 
 ### .hears(command, callback)
@@ -207,24 +205,21 @@ bot.command('start', ({ reply }) => {
 Add command w/ match like RegEx.
 
 ```javascript
-bot.hears(/(car|tesla)/, ({ reply }) => {
-  reply('I love Tesla!')
-})
-
+bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
 ```
 
-### .on(callback)
+### .on(type, callback)
 
-| Parameter  | Type      | Requried  |
-| -----------|:---------:| ---------:|
-| callback   | function  | yes       |
+| Parameter  | Type      | Requried  | Default |
+| -----------|:---------:| :--------:| -------:|
+| type       | string    | no        | message |
+| callback   | function  | yes       |         |
 
 Add reserved callback.
 
 ```javascript
-bot.on(({ reply }) => {
-  reply('What?')
-})
+bot.on(({ reply }) => reply('What?'))
+bot.on('audio', ({ reply }) => reply('Great music!'))
 ```
 
 ### .event(event, callback)
@@ -237,9 +232,7 @@ bot.on(({ reply }) => {
 Add [event](https://vk.com/dev/callback_api).
 
 ```javascript
-bot.event('group_join', ({ reply }) => {
-  reply('Thanks!')
-})
+bot.event('group_join', ({ reply }) => reply('Thanks!'))
 ```
 
 ### .uploadDocument(file, type)
