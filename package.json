@@ -1,6 +1,6 @@
 {
   "name": "botact",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "description": "Botact enables developers to focus on writing reusable application logic instead of spending time building infrastructure.",
   "main": "index.js",
   "scripts": {
