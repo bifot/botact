@@ -14,7 +14,7 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-const callApi = (body) => bot.listen({ body }, { end() {} })
+const callApi = (body) => bot.listen({ body }, { end () {} })
 
 describe('options', () => {
   it('get options', () => {
@@ -48,7 +48,9 @@ describe('events', () => {
   })
 
   it('add middleware', () => {
-    const middleware = (ctx) => ctx.foo = 'bar'
+    const middleware = (ctx) => {
+      ctx.foo = 'bar'
+    }
 
     bot.use(middleware)
     bot.on(({ foo }) => expect(foo).eq('bar'))
@@ -218,15 +220,14 @@ describe('scene', () => {
   })
 
   it('leave scene', async () => {
-    const userId = 1
-    const sceneName = 'simple'
+    const id = 1
 
     bot.leaveScene({
-      user_id: userId,
+      user_id: id,
       redis: client
     })
 
-    const flow = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${userId}`))
+    const flow = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${id}`))
 
     expect(flow).eq(null)
   })
