@@ -166,39 +166,41 @@ describe('events', () => {
 
 describe('scene', () => {
   it('add scene', () => {
-    const scene = 'simple'
+    const sceneName = 'simple'
     const callbacks = [ () => {}, () => {} ]
 
-    bot.addScene(scene, callbacks)
+    bot.addScene(sceneName, callbacks)
 
-    expect(bot.flow.scenes).to.deep.equal({ [scene]: callbacks })
+    expect(bot.flow.scenes).to.deep.equal({ [sceneName]: callbacks })
   })
 
   it('join scene', async () => {
+    const { token } = bot.options
     const id = 1
-    const scene = 'simple'
+    const sceneName = 'simple'
     const sessionInital = { foo: 'bar' }
 
     await bot.joinScene({
       user_id: id,
       redis: client,
       flow: bot.flow
-    }, scene, sessionInital)
+    }, sceneName, sessionInital)
 
     const {
       scene,
       step,
       session
-    } = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${id}`))
+    } = JSON.parse(await client.getAsync(`flow:${token}:${id}`))
 
-    expect(scene).eq(scene)
+    expect(scene).eq(sceneName)
     expect(step).eq(0)
     expect(session).to.deep.equal(sessionInital)
   })
 
   it('next scene', async () => {
+    const { token } = bot.options
     const id = 1
-    const scene = 'simple'
+    const sceneName = 'simple'
     const sessionInital = { foo: 'bar' }
     const sessionExtra = { bar: 'foo' }
 
@@ -212,14 +214,15 @@ describe('scene', () => {
       scene,
       step,
       session
-    } = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${id}`))
+    } = JSON.parse(await client.getAsync(`flow:${token}:${id}`))
 
-    expect(scene).eq(scene)
+    expect(scene).eq(sceneName)
     expect(step).eq(1)
     expect(session).to.deep.equal({ ...sessionInital, ...sessionExtra })
   })
 
   it('leave scene', async () => {
+    const { token } = bot.options
     const id = 1
 
     bot.leaveScene({
@@ -227,7 +230,7 @@ describe('scene', () => {
       redis: client
     })
 
-    const flow = JSON.parse(await client.getAsync(`flow:${bot.options.token}:${id}`))
+    const flow = JSON.parse(await client.getAsync(`flow:${token}:${id}`))
 
     expect(flow).eq(null)
   })
