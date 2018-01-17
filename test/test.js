@@ -16,6 +16,20 @@ const bot = new Botact({
 
 const callApi = (body) => bot.listen({ body }, { end () {} })
 
+describe('api', () => {
+  it('call api', async () => {
+    const body = await bot.api('users.get', { user_ids: 1 })
+
+    expect(body).to.deep.equal({
+      response: [{
+        id: 1,
+        first_name: 'Павел',
+        last_name: 'Дуров'
+      }]
+    })
+  })
+})
+
 describe('options', () => {
   it('get options', () => {
     expect(bot.options)
