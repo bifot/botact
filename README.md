@@ -59,7 +59,7 @@ app.listen(process.env.PORT)
 * [.deleteOptions(settings)](#deleteoptionssettings)
 * [.before(callback)](#beforecallback)
 * [.use(callback)](#usecallback)
-* [.execute(method, settings, token, callback)](#executemethod-settings-token-callback)
+* [.execute(method, settings, callback)](#executemethod-settings-callback)
 * [.command(command, callback)](#commandcommand-callback)
 * [.hears(command, callback)](#hearscommand-callback)
 * [.on(type, callback)](#ontype-callback)
@@ -159,25 +159,27 @@ bot.on(({ date }) => {
 })
 ```
 
-### .execute(method, settings, token, callback)
+### .execute(method, settings, callback)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
 | method     | string    | yes       |
 | settings   | object    | yes       |
-| token      | string    | yes       |
 | callback   | function  | no        |
 
 Call API by [execute](https://vk.com/dev/execute).
 
 ```js
 bot.execute('users.get', {
-  user_ids: 1
-}, this.settings.token, (body) => {
+  user_ids: 1,
+  access_token: this.settings.token
+}, (body) => {
   // {
-  //   id: 1,
-  //   first_name: 'Pavel',
-  //   last_name: 'Durov'
+  //   response: [{
+  //     id: 1,
+  //     first_name: 'Павел',
+  //     last_name: 'Дуров'
+  //   }]
   // }
 })
 ```
