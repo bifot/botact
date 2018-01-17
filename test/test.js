@@ -28,6 +28,20 @@ describe('api', () => {
       }]
     })
   })
+
+  it('call execute', () => {
+    bot.execute('users.get', {
+      user_ids: 1
+    }, (body) => {
+      expect(body).to.deep.equal({
+        response: [{
+          id: 1,
+          first_name: 'Павел',
+          last_name: 'Дуров'
+        }]
+      })
+    })
+  })
 })
 
 describe('options', () => {
