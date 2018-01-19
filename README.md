@@ -53,7 +53,7 @@ app.listen(process.env.PORT)
 
 ## Methods
 
-* [constructor(options)](#constructoroptions)
+* [constructor(settings)](#constructoroptions)
 * [[getter] options](#getter-options)
 * [[setter] options](#setter-options)
 * [.deleteOptions(settings)](#deleteoptionssettings)
@@ -70,11 +70,15 @@ app.listen(process.env.PORT)
 * [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
 
-### constructor(options)
+### constructor(settings)
 
-| Parameter  | Type      | Requried  |
-| -----------|:---------:| ---------:|
-| options    | object    | yes       |
+| Parameter  | Type      | Requried  | Default |
+| -----------|:---------:| :--------:| ---------:|
+| settings    | object    | yes      | |
+| settings.token | string | yes | |
+| settings.confirmation | string | yes | |
+| settings.group_id | number | no | |
+| settings.redis | boolean | no  | false |
 
 Create bot.
 

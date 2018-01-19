@@ -6,7 +6,8 @@ const { confirmation, token } = require('../config')
 const app = express()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION || confirmation,
-  token: process.env.TOKEN || token
+  token: process.env.TOKEN || token,
+  redis: true
 })
 
 bot.addScene('wizard',
