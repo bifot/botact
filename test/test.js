@@ -268,7 +268,7 @@ describe('upload', function () {
   this.timeout(5000)
 
   it('upload photo', async () => {
-    const photo = await bot.uploadPhoto(path.join(__dirname, './files/cover.png'))
+    const photo = await bot.uploadPhoto(path.join(__dirname, './files/cover.png'), 0)
 
     expect(photo).to.be.a('object').to.contains.keys([ 'id', 'album_id', 'owner_id', 'user_id' ])
   })
