@@ -65,7 +65,7 @@ app.listen(process.env.PORT)
 * [.on(type, callback)](#ontype-callback)
 * [.event(event, callback)](#eventevent-callback)
 * [.uploadDocument(file, type)](#uploaddocumentfile-type)
-* [.uploadPhoto(file)](#uploadphotofile)
+* [.uploadPhoto(file, peer_id)](#uploadphotofile)
 * [.uploadCover(file, settings)](#uploadcoverfile-settings)
 * [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
@@ -265,11 +265,12 @@ await bot.uploadDocument('./book.pdf')
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
 | file       | string    | yes       |
+| peer_id    | number    | yes       |
 
 Upload photo.
 
 ```javascript
-await bot.uploadPhoto('./girl.png') // { id: 456246067, ... }
+await bot.uploadPhoto('./girl.png', 1) // { id: 456246067, ... }
 // {
 //   id: 456246067,
 //   album_id: -14,
