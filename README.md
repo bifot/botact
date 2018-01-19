@@ -65,9 +65,9 @@ app.listen(process.env.PORT)
 * [.on(type, callback)](#ontype-callback)
 * [.event(event, callback)](#eventevent-callback)
 * [.uploadDocument(file, type)](#uploaddocumentfile-type)
-* [.uploadPhoto(file, peer_id)](#uploadphotofile)
+* [.uploadPhoto(file, peer_id)](#uploadphotofile-peer_id)
 * [.uploadCover(file, settings)](#uploadcoverfile-settings)
-* [.reply(userId, message, attachment, callback)](#replyuserid-message-attachment-callback)
+* [.reply(user_id, message, attachment, callback)](#replyuser_id-message-attachment-callback)
 * [.listen(req, res)](#listenreq-res)
 
 ### constructor(settings)
@@ -260,7 +260,7 @@ await bot.uploadDocument('./book.pdf')
 // }
 ```
 
-### .uploadPhoto(file)
+### .uploadPhoto(file, peer_id)
 
 | Parameter  | Type      | Requried  |
 | -----------|:---------:| ---------:|
@@ -301,11 +301,11 @@ await bot.uploadCover('./cover.jpg', { crop_x2: 1590 })
 // }
 ```
 
-### .reply(userId, message, attachment, callback)
+### .reply(user_id, message, attachment, callback)
 
 | Parameter  | Type             | Requried  |
 | -----------|:----------------:| ---------:|
-| userId     | number or array  | yes       |
+| user_id     | number or array  | yes       |
 | message    | string           | yes (no, if setten attachment)   |
 | attachment | string           | yes (no, if setten message)      |
 | callback   | function         | no        |
