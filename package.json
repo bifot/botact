@@ -4,7 +4,7 @@
   "description": "Botact enables developers to focus on writing reusable application logic instead of spending time building infrastructure.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "mocha --exit --timeout 10000",
     "example": "nodemon examples/simple.js",
     "lint": "eslint .",
     "fix": "eslint . --fix"
