@@ -44,6 +44,26 @@ describe('api', () => {
   })
 })
 
+describe('upload', () => {
+  it('upload photo', async () => {
+    const photo = await bot.uploadPhoto(path.join(__dirname, './files/cover.png'), 0)
+
+    expect(photo).to.be.a('object').to.contains.keys([ 'id', 'album_id', 'owner_id', 'user_id' ])
+  })
+
+  it('upload cover', async () => {
+    const cover = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
+      crop_x2: 1590,
+      crop_y2: 400
+    })
+
+    const { images } = cover
+
+    expect(cover).to.be.a('object').to.have.all.keys([ 'images' ])
+    expect(images).to.be.a('array')
+  })
+})
+
 describe('options', () => {
   it('get options', () => {
     expect(bot.options)
@@ -261,27 +281,5 @@ describe('scene', () => {
     const flow = JSON.parse(await client.getAsync(`flow:${token}:${id}`))
 
     expect(flow).eq(null)
-  })
-})
-
-describe('upload', function () {
-  this.timeout(5000)
-
-  it('upload photo', async () => {
-    const photo = await bot.uploadPhoto(path.join(__dirname, './files/cover.png'), 0)
-
-    expect(photo).to.be.a('object').to.contains.keys([ 'id', 'album_id', 'owner_id', 'user_id' ])
-  })
-
-  it('upload cover', async () => {
-    const cover = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
-      crop_x2: 1590,
-      crop_y2: 400
-    })
-
-    const { images } = cover
-
-    expect(cover).to.be.a('object').to.have.all.keys([ 'images' ])
-    expect(images).to.be.a('array')
   })
 })
