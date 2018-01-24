@@ -45,12 +45,6 @@ describe('api', () => {
 })
 
 describe('upload', () => {
-  it('upload photo', async () => {
-    const photo = await bot.uploadPhoto(path.join(__dirname, './files/cover.png'), 0)
-
-    expect(photo).to.be.a('object').to.contains.keys([ 'id', 'album_id', 'owner_id', 'user_id' ])
-  })
-
   it('upload cover', async () => {
     const cover = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
       crop_x2: 1590,
