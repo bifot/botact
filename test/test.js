@@ -44,17 +44,57 @@ describe('api', () => {
   })
 })
 
-describe('upload', () => {
-  it('upload cover', async () => {
-    const cover = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
-      crop_x2: 1590,
-      crop_y2: 400
+describe('methods', () => {
+  describe('uploadCover', () => {
+    it('uploadCover', async () => {
+      const response = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
+        crop_x2: 1590,
+        crop_y2: 400
+      })
+
+      const { images } = response
+
+      expect(response).to.be.a('object').to.have.all.keys([ 'images' ])
+      expect(images).to.be.a('array')
+    })
+  })
+
+  describe('reply', () => {
+    it('reply without permission', async () => {
+      const body = await bot.reply(1, 'Hello, world!')
+
+      expect(body).to.deep.equal({
+        response: [{
+          peer_id: 1,
+          error: {
+            code: 901,
+            description: 'Can\'t send messages for users without permission'
+          }
+        }]
+      })
     })
 
-    const { images } = cover
+    it('reply with permission', async () => {
+      const { response } = await bot.reply(145003487, 'Hello, world!')
+      const [ message ] = response
 
-    expect(cover).to.be.a('object').to.have.all.keys([ 'images' ])
-    expect(images).to.be.a('array')
+      expect(response).to.be.a('array')
+      expect(message).to.be.a('object').to.have.all.keys([ 'peer_id', 'message_id' ])
+    })
+
+    it('reply without message or attachment', async () => {
+      try {
+        const body = await bot.reply(1, null)
+      } catch (error) {
+        expect(error).to.deep.equal({
+          error: {
+            error_code: 100,
+            error_msg: 'One of the parameters specified was missing or invalid: message is empty or invalid',
+            method: 'messages.send'
+          }
+        })
+      }
+    })
   })
 })
 
