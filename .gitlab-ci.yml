@@ -1,0 +1,14 @@
+before_script:
+  - npm install
+stages:
+  - test
+  - deploy
+npm_test:
+  stage: test
+  script:
+    - npm test
+release:
+  stage: deploy
+  script:
+    - echo Releasing...
+    - npm run ci-publish || true
