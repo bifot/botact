@@ -29,6 +29,7 @@
     "url": "https://github.com/bifot/botact/issues"
   },
   "homepage": "https://github.com/bifot/botact#readme",
+  "typings": "./index.d.ts",
   "dependencies": {
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
