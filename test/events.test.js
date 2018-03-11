@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const { bot, callApi } = require('./test.config.js')
 
-module.exports = () => {
+describe('events', () => {
   it('add before callback', async () => {
     await bot.before(() => 'foo')
 
@@ -123,4 +123,4 @@ module.exports = () => {
       callback
     })
   })
-}
+})

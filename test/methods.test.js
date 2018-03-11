@@ -2,7 +2,7 @@ const { expect } = require('chai')
 const path = require('path')
 const { bot } = require('./test.config.js')
 
-module.exports = () => {
+describe('methods', () => {
   describe('uploadCover', () => {
     it('uploadCover', async () => {
       const response = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
@@ -54,4 +54,4 @@ module.exports = () => {
       }
     })
   })
-}
+})

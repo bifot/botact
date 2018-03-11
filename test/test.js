@@ -1,5 +1,0 @@
-describe('api', require('./api.test.js'))
-describe('events', require('./events.test.js'))
-describe('methods', require('./methods.test.js'))
-describe('options', require('./options.test.js'))
-describe('scene', require('./scene.test.js'))

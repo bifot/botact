@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const { bot } = require('./test.config.js')
 
-module.exports = () => {
+describe('options', () => {
   it('get options', () => {
     expect(bot.options)
       .to.be.a('object')
@@ -23,4 +23,4 @@ module.exports = () => {
       .to.be.a('object')
       .to.have.all.keys([ 'token', 'group_id' ])
   })
-}
+})

@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const { bot, redis } = require('./test.config.js')
 
-module.exports = () => {
+describe('scene', () => {
   it('add scene', () => {
     const sceneName = 'simple'
     const callbacks = [ () => {}, () => {} ]
@@ -71,4 +71,4 @@ module.exports = () => {
 
     expect(flow).eq(null)
   })
-}
+})

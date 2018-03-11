@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const { bot } = require('./test.config.js')
 
-module.exports = () => {
+describe('api', () => {
   it('call api', async () => {
     const body = await bot.api('users.get', { user_ids: 1 })
 
@@ -27,4 +27,4 @@ module.exports = () => {
       })
     })
   })
-}
+})
