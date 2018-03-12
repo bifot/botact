@@ -2,7 +2,7 @@ const { expect } = require('chai')
 const { bot, callApi } = require('./test.config.js')
 
 describe('events', () => {
-  it('add before callback', async () => {
+  it('add before', async () => {
     await bot.before(() => 'foo')
 
     expect(bot.inital).eq('foo')
@@ -86,7 +86,7 @@ describe('events', () => {
     })
   })
 
-  it('add on [audio]', () => {
+  it('add on [w/ type=audio]', () => {
     const callback = (ctx) => expect(ctx).to.be.a('object')
 
     bot.on('audio', callback)
