@@ -1,52 +1,92 @@
-export interface BotactSettings {
+interface BotactSettings {
     confirmation: string;
     token: string;
     group_id?: number;
+
+    // Flow Settings
     flowTimeout?: number;
     redis?: boolean;
     redisConfig?: any;
 }
 
-// TODO: Add botact context interface
 
-export declare class Botact {
-    private /* async */ handler(ctx: any): void;
-    private execute(method: string, settings?: any, callback?: () => void);
-    private executeHandler(ctx: any): void;
+interface IBotactCore {
+    /* async */ listen(req: any, res: any): Promise<Botact>;
+    /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
+    /* async */ handler(ctx: any): void;
+    /* async */ execute(method: string, settings?: any, callback?: () => void): Promise<any>;
+    executeHandler(ctx: any): void;
+}
 
+interface IBotactSettings {
+    /* get */ settings(): BotactSettings;
+    /* set */ settings(settings: BotactSettings): void;
+    getOptions(): BotactSettings;
+    setOptions(settings: BotactSettings): void;
+    deleteOptions(keys: string[]): void;
+}
+
+interface IBotactHandlers {
+    /* async */ reply(user_id: number, message: string, attachment?: string): Promise<any>;
+    /* async */ before(callback: () => void): Promise<Botact>;
+    use(callback: () => void): Botact;
+    command(command: string | string[], callback: () => void): Botact;
+    hears(hear: string | RegExp | (string|RegExp)[], callback: () => void): Botact;
+    event(event: string, callback: () => void): Botact;
+    on(type: () => void | string, callback?: () => void): Botact;
+}
+
+interface IBotactHelpers {
+    /* async */ uploadDocument(filepath: string, peer_id: number, type: 'doc' | 'audio_message' /* = 'doc' */): Promise<any>;
+    /* async */ uploadPhoto(filepath: string, peer_id: number): Promise<any>;
+    /* async */ uploadCover(filepath: string, settings?: any): Promise<any>;
+    getLastMessage(message: any): any;
+}
+
+interface IBotactFlow {
+    addScene(name: string, ...args: void[]): Botact;
+    /* async */ joinScene(ctx: any, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
+    /* async */ nextScene(ctx: any, session?: any): Promise<any>;
+    /* async */ leaveScene(ctx: any): Promise<any>;
+}
+
+export declare class Botact implements IBotactCore, IBotactSettings, IBotactHandlers, IBotactHelpers, IBotactFlow {
     // core
     public constructor(settings: BotactSettings);
-    public /* async */ listen(req: any, res: any): Promise<Botact>;
-    public /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
+    /* async */ listen(req: any, res: any): Promise<Botact>;
+    /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
+    /* async */ handler(ctx: any): void;
+    /* async */ execute(method: string, settings?: any, callback?: () => void): Promise<any>;
+    executeHandler(ctx: any): void;
 
     // statics
-    public static execute(method: string, settings?: any, callback?: () => void);
+    public static /* async */ execute(method: string, settings?: any, callback?: () => void): Promise<any>;
 
     // settings
-    public /* get */ settings(): BotactSettings;
-    public /* set */ settings(settings: BotactSettings): void;
-    public getOptions(): BotactSettings;
-    public setOptions(settings: BotactSettings): void;
-    public deleteOptions(keys: string[]): void;
+    /* get */ settings(): BotactSettings;
+    /* set */ settings(settings: BotactSettings): void;
+    getOptions(): BotactSettings;
+    setOptions(settings: BotactSettings): void;
+    deleteOptions(keys: string[]): void;
 
     // handlers
-    public /* async */ reply(user_id: number, message: string, attachment?: string): Promise<any>;
-    public /* async */ before(callback: () => void): Promise<Botact>;
-    public use(callback: () => void): Botact;
-    public command(command: string | string[], callback: () => void): Botact;
-    public hears(hear: string | RegExp | (string|RegExp)[], callback: () => void): Botact;
-    public event(event: string, callback: () => void): Botact;
-    public on(type: () => void | string, callback?: () => void): Botact;
+    /* async */ reply(user_id: number, message: string, attachment?: string): Promise<any>;
+    /* async */ before(callback: () => void): Promise<Botact>;
+    use(callback: () => void): Botact;
+    command(command: string | string[], callback: () => void): Botact;
+    hears(hear: string | RegExp | (string|RegExp)[], callback: () => void): Botact;
+    event(event: string, callback: () => void): Botact;
+    on(type: () => void | string, callback?: () => void): Botact;
 
     // helpers
-    public /* async */ uploadDocument(filepath: string, peer_id: number, type: 'doc' | 'audio_message' /* = 'doc' */): Promise<any>;
-    public /* async */ uploadPhoto(filepath: string, peer_id: number): Promise<any>;
-    public /* async */ uploadCover(filepath: string, settings?: any): Promise<any>;
-    public getLastMessage(message: any): any;
+    /* async */ uploadDocument(filepath: string, peer_id: number, type: 'doc' | 'audio_message' /* = 'doc' */): Promise<any>;
+    /* async */ uploadPhoto(filepath: string, peer_id: number): Promise<any>;
+    /* async */ uploadCover(filepath: string, settings?: any): Promise<any>;
+    getLastMessage(message: any): any;
 
     // flow
-    public addScene(name: string, ...args: void[]): Botact;
-    public /* async */ joinScene(ctx: any, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
-    public /* async */ nextScene(ctx: any, session?: any): Promise<any>;
-    public /* async */ leaveScene(ctx: any): Promise<any>;
+    addScene(name: string, ...args: void[]): Botact;
+    /* async */ joinScene(ctx: any, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
+    /* async */ nextScene(ctx: any, session?: any): Promise<any>;
+    /* async */ leaveScene(ctx: any): Promise<any>;
 }
