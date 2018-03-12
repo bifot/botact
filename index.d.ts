@@ -72,11 +72,11 @@ interface IBotactCtx extends IBotactCore, IBotactMsg {
 
 export declare class Botact implements IBotactCore {
     // fields
-    private flow: IBotactFlow;
-    private actions: IBotactActions;
-    private methods: IBotactExecuteMethods[];
-    private inital?: any;
-    private redis?: any; // TODO: add typings for redis
+    flow: IBotactFlow;
+    actions: IBotactActions;
+    methods: IBotactExecuteMethods[];
+    inital?: any;
+    redis?: any; // TODO: add typings for redis
 
     // core
     public constructor(settings: BotactSettings);
