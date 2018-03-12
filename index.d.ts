@@ -90,3 +90,6 @@ export declare class Botact implements IBotactCore, IBotactSettings, IBotactHand
     /* async */ nextScene(ctx: any, session?: any): Promise<any>;
     /* async */ leaveScene(ctx: any): Promise<any>;
 }
+
+export declare function /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
+export declare function getLastMessage(message: any): any;
