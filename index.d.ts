@@ -9,6 +9,40 @@ interface BotactSettings {
     redisConfig?: any;
 }
 
+interface IBotactMsg {
+    body: string
+
+    attachments?: any[]
+    forwarded?: IBotactMsg
+}
+
+interface IBotactFlow {
+    scenes: any
+    session: any
+    timeout?: undefined | number
+}
+
+interface IBotactActions {
+    commands: ({ command: string, callback:(ctx: IBotactCtx) => any })[];
+    hears: ({ command: string | RegExp | (string|RegExp)[], callback:(ctx: IBotactCtx) => any })[];
+    events: ({ event: string, callback:(ctx: IBotactCtx) => any })[];
+    on: ({ type: () => void | string, callback?: (ctx: IBotactCtx) => any })[];
+    middlewares: ((ctx: IBotactCtx) => any)[];
+}
+
+interface IBotactExecuteItem {
+    code: string;
+    callback: (response: any) => any;
+
+    result: Promise<any>
+    resolve: (value: any) => void;              // needed to resolve result after successful execution
+    reject: (reason: any) => void;              // needed to reject result after execution error
+}
+
+interface IBotactExecuteMethods {
+    access_token: string;
+    items: IBotactExecuteItem[]
+}
 
 interface IBotactCore {
     /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
@@ -17,30 +51,33 @@ interface IBotactCore {
     /* async */ uploadCover(filepath: string, settings?: any): Promise<any>;
     /* async */ execute(method: string, settings?: any, callback?: () => void): Promise<any>;
 
+    flow: IBotactFlow
     inital?: any
+    redis?: any // TODO: add typings for redis
 }
 
-interface IBotactMsg {
-    body: string
-
-    attachments?: any[]
-    forwarded?: IBotactMsg
-}
 
 interface IBotactCtx extends IBotactCore, IBotactMsg {
     /* async */ reply(message: string, attachment?: string): Promise<any>;
     /* async */ sendMessage(user_id: number, message: string, attachment?: string): Promise<any>
 
     scene: {
-        join(ctx: any, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
-        next(ctx: any, session?: any): Promise<any>;
-        leave(ctx: any): Promise<any>;
+        join(scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
+        next(session?: any): Promise<any>;
+        leave(): Promise<any>;
     }
 
     group_id?: number | undefined
 }
 
 export declare class Botact implements IBotactCore {
+    // fields
+    private flow: IBotactFlow;
+    private actions: IBotactActions;
+    private methods: IBotactExecuteMethods[];
+    private inital?: any;
+    private redis?: any; // TODO: add typings for redis
+
     // core
     public constructor(settings: BotactSettings);
     /* async */ listen(req: any, res: any): Promise<Botact>;
@@ -75,10 +112,10 @@ export declare class Botact implements IBotactCore {
     getLastMessage(message: any): any;
 
     // flow
-    addScene(name: string, ...args: void[]): Botact;
-    /* async */ joinScene(ctx: any, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
-    /* async */ nextScene(ctx: any, session?: any): Promise<any>;
-    /* async */ leaveScene(ctx: any): Promise<any>;
+    addScene(name: string, ...args: (() => any)[]): Botact;
+    /* async */ joinScene(ctx: IBotactCtx, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
+    /* async */ nextScene(ctx: IBotactCtx, session?: any): Promise<any>;
+    /* async */ leaveScene(ctx: IBotactCtx): Promise<any>;
 }
 
 export declare function /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
