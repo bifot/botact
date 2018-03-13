@@ -300,6 +300,48 @@ bot.on(({ date }) => {
 ```
 
 
+## Botact API: Options
+### [getter] options
+
+Get options.
+
+```js
+bot.options
+// {
+//   confirmation: '12345',
+//   token: 'abcde...'
+// }
+```
+
+### [setter] options
+
+Set options.
+
+```js
+bot.options = { foo: 'bar' }
+// {
+//   confirmation: '12345',
+//   token: 'abcde...',
+//   foo: 'bar'
+// }
+```
+
+### .deleteOptions(settings)
+Delete keys settings.
+
+Definition:
+```typescript
+deleteOptions (
+  keys: string[]
+): Botact
+```
+Usage:
+```js
+bot.deleteOptions([ 'token', 'confirmation' ])
+// {
+//   foo: 'bar'
+// }
+```
 ---
 ## Botact Flow API
 
