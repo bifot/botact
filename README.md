@@ -78,7 +78,9 @@ app.listen(process.env.PORT)
 * [.uploadCover(file, settings)](#uploadcoverfile-settings)
 * [.uploadDocument(file, type)](#uploaddocumentfile-type)
 * [.uploadPhoto(file, peer_id)](#uploadphotofile-peer_id)
+---
 
+## Botact API: Core
 ### constructor(settings)
 Create bot.  
 
@@ -193,7 +195,112 @@ bot.listen(req, res)
 ```
 
 
+## Botact API: Actions
+### .before(callback)
+Add callback before bot will start.
 
+Definition:
+```typescript
+before (
+  callback: function
+)
+```
+Usage:
+```js
+bot.before(() => new Date())
+
+bot.on(({ inital }) => {
+  // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
+})
+```
+
+### .command(command, callback)
+Add command w/ strict match.
+
+Definition:
+```typescript
+command (
+  command: string | string[], 
+  callback: function
+): Botact
+```
+Usage:
+```javascript
+bot.command('start', ({ reply }) => reply('This is start!'))
+```
+
+### .event(event, callback)
+Add [event](https://vk.com/dev/groups_events) handler .
+
+Definition:
+```typescript
+event (
+  event: string | string[], 
+  callback: function
+): Botact;
+```
+Usage:
+```javascript
+bot.event('group_join', ({ reply }) => reply('Thanks!'))
+```
+
+### .hears(command, callback)
+Add command w/ match like RegEx.
+
+Definition:
+```typescript
+hears (
+  hear: string | RegExp | (string | RegExp)[], 
+  callback: function
+): Botact;
+```
+Usage:
+```javascript
+bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
+```
+
+### .on(type, callback)
+Add reserved callback.
+
+Definition:
+```typescript
+on (
+  type: string, 
+  callback: function
+): Botact;
+
+OR
+
+on (
+  callback: function
+): Botact;
+```
+Usage:
+```javascript
+bot.on(({ reply }) => reply('What?'))
+bot.on('audio', ({ reply }) => reply('Great music!'))
+```
+
+### .use(callback)
+Add middleware.
+
+Definition:
+```typescript
+use (
+  callback: function
+): Botact
+```
+Usage:
+```js
+bot.use(ctx => ctx.date = new Date())
+
+bot.on(({ date }) => {
+  // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
+})
+```
+
+
+---
 ## Botact Flow API
 
 ### Usage
@@ -243,8 +350,7 @@ app.use(bodyParser.json())
 app.post('/', bot.listen)
 app.listen(process.env.PORT)
 ```
-
-
+---
 ## TypeScript
 
 // TODO
