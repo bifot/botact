@@ -347,6 +347,8 @@ bot.deleteOptions([ 'token', 'confirmation' ])
 ### .uploadCover(file, settings)
 Upload and save cover.
 See detailed settings [here](https://vk.com/dev/photos.getOwnerCoverPhotoUploadServer).
+
+Definition:
 ```typescript
 async uploadCover (
   filepath: string,    // Path to file with cover
@@ -373,6 +375,8 @@ await bot.uploadCover('./cover.jpg', { crop_x2: 1590 })
 
 ### .uploadDocument(file, peer_id, type)
 Uploads document to peer.
+
+Definition:
 ```typescript
 async uploadDocument (
   filepath: string,               // Path to file
@@ -396,6 +400,8 @@ await bot.uploadDocument('./book.pdf', 1234)
 
 ### .uploadPhoto(file, peer_id)
 Uploads photo to peer.
+
+Definition:
 ```typescript
 async uploadPhoto (
   filepath: string,   // Path to picture
@@ -462,11 +468,102 @@ bot.command('join', ({ scene: { join } }) => join('wizard'))
 app.use(bodyParser.json())
 app.post('/', bot.listen)
 app.listen(process.env.PORT)
+
 ```
+## Botact Flow API: Methods
+### .addScene(name, ...callbacks)
+Add scene.
+
+Definition:
+```typescript
+addScene (
+  name: string, 
+  ...args: function[]
+): Botact;
+```
+Usage:
+```javascript
+bot.addScene('wizard',
+  ({ reply, scene: { next } }) => {
+    next()
+    reply('Write me something!')
+  },
+  ({ reply, body, scene: { leave } }) => {
+    leave()
+    reply(`You wrote: ${body}`)
+  }
+)
+```
+
+### .joinScene(ctx, scene, session, step, now)
+Enter scene.
+
+Definition:
+```typescript
+async joinScene (
+  ctx: object, 
+  scene: string, 
+  session?: object,      // {} by default 
+  step?: number,         // 0 by default
+  instantly?: boolean    // true by default
+): Promise<Botact>;
+```
+Usage:
+```javascript
+bot.command('join', (ctx) => {
+  // with shortcut without additional settings
+  ctx.scene.join('wizard')
+  // simple usage with additional settings
+  bot.joinScene(ctx, 'wizard', { foo: 'bar' })
+})
+```
+
+### .nextScene(ctx, body)
+Navigate scene.
+
+Definition:
+```typescript
+async nextScene (
+  ctx: object, 
+  session?: object,      // {} by default 
+): Promise<Botact>;
+```
+Usage:
+```javascript
+bot.addScene('wizard',
+  (ctx) => {
+    // with shortcut without additional settings
+    ctx.scene.next({ foo: 'bar' })
+    // simple usage with additional settings
+    bot.nextScene(ctx, { foo: 'bar' })
+  }
+)
+```
+
+### .leaveScene(ctx)
+Leave scene.
+
+Definition:
+```typescript
+async leaveScene(
+  ctx: object
+): Promise<Botact>;
+```
+Usage:
+```javascript
+bot.addScene('wizard',
+  (ctx) => {
+    // with shortcut
+    ctx.scene.leave()
+    // simple usage
+    bot.leaveScene(ctx)
+  }
+)
+```
+
 ---
 ## TypeScript
-
-// TODO
+Botact includes TypeScript definitions.
 
 
 ## Tests
