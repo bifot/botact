@@ -76,7 +76,7 @@ app.listen(process.env.PORT)
 
 **Upload helpers**
 * [.uploadCover(file, settings)](#uploadcoverfile-settings)
-* [.uploadDocument(file, type)](#uploaddocumentfile-type)
+* [.uploadDocument(file, peer_id ,type)](#uploaddocumentfile-peer_id-type)
 * [.uploadPhoto(file, peer_id)](#uploadphotofile-peer_id)
 ---
 
@@ -342,6 +342,77 @@ bot.deleteOptions([ 'token', 'confirmation' ])
 //   foo: 'bar'
 // }
 ```
+
+## Botact API: Upload helpers  [↑](#botact-api)
+### .uploadCover(file, settings)
+Upload and save cover.
+See detailed settings [here](https://vk.com/dev/photos.getOwnerCoverPhotoUploadServer).
+```typescript
+async uploadCover (
+  filepath: string,    // Path to file with cover
+  settings?: object
+): Promise<any>        // Promise with response/error
+```
+Usage:
+```javascript
+await bot.uploadCover('./cover.jpg', { crop_x2: 1590 })
+// {
+//   images: [
+//     { 
+//       url: "URL",
+//       width: 1920,
+//       height: 1080 
+//     },
+//     [Object],
+//     [Object],
+//     [Object],
+//     [Object]
+//   ]
+// }
+```
+
+### .uploadDocument(file, peer_id, type)
+Uploads document to peer.
+```typescript
+async uploadDocument (
+  filepath: string,               // Path to file
+  peer_id: number, 
+  type: 'doc' | 'audio_message'   // 'doc' by default
+): Promise<any>;                  // Promise with response/error
+```
+Usage:
+```javascript
+await bot.uploadDocument('./book.pdf', 1234)
+// { 
+//   response:
+//     [{ 
+//       id: 1234,
+//       owner_id: 1234,
+//       title: "",
+//       ... 
+//     }]
+// }
+```
+
+### .uploadPhoto(file, peer_id)
+Uploads photo to peer.
+```typescript
+async uploadPhoto (
+  filepath: string,   // Path to picture
+  peer_id: number
+): Promise<any>       // Promise with response/error
+```
+Usage:
+```javascript
+await bot.uploadPhoto('./picture.png', 1234)
+// {
+//   id: 1234,
+//   album_id: 1234,
+//   owner_id: 1234,
+//   ...
+// }
+```
+
 ---
 ## Botact Flow API
 
