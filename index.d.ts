@@ -111,9 +111,9 @@ export declare class Botact implements IBotactCore {
 
     // flow
     addScene(name: string, ...args: ((ctx: IBotactCtx) => any)[]): Botact;
-    /* async */ joinScene(ctx: IBotactCtx, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Botact;
-    /* async */ nextScene(ctx: IBotactCtx, session?: any /* = {} */): Botact;
-    /* async */ leaveScene(ctx: IBotactCtx): Botact;
+    /* async */ joinScene(ctx: IBotactCtx, scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<Botact>;
+    /* async */ nextScene(ctx: IBotactCtx, session?: any /* = {} */): Promise<Botact>;
+    /* async */ leaveScene(ctx: IBotactCtx): Promise<Botact>;
 }
 
 export declare function /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
