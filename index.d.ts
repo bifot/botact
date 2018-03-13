@@ -88,26 +88,26 @@ export declare class Botact implements IBotactCore {
     /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
     /* async */ execute(method: string, settings?: any, callback?: (response: any) => any): Promise<any>;
     /* async */ listen(req: any, res: any): Promise<Botact>; // TODO: add typings for Express Request & Response
+    /* async */ reply(user_id: number, message: string, attachment?: string): Promise<any>;
 
     // settings
     getOptions(): BotactSettings;
     setOptions(settings: BotactSettings): void;
     deleteOptions(keys: string[]): Botact;
 
-    // handlers
+    // actions
     /* async */ before(callback: () => any): Promise<Botact>;
     command(command: string | string[], callback: (ctx: IBotactCtx) => any): Botact;
     event(event: string | string[], callback: (ctx: IBotactCtx) => any): Botact;
     hears(hear: string | RegExp | (string | RegExp)[], callback: (ctx: IBotactCtx) => any): Botact;
     on(type: (ctx: IBotactCtx) => any | string, callback?: (ctx: IBotactCtx) => any): Botact;  // TODO: change this D:
-    /* async */ reply(user_id: number, message: string, attachment?: string): Promise<any>;
     use(callback: (ctx: IBotactCtx) => any): Botact;
 
     // helpers
+    private getLastMessage(message: any): any;
     /* async */ uploadCover(filepath: string, settings?: any): Promise<any>;
     /* async */ uploadDocument(filepath: string, peer_id: number, type: 'doc' | 'audio_message' /* = 'doc' */): Promise<any>;
     /* async */ uploadPhoto(filepath: string, peer_id: number): Promise<any>;
-    private getLastMessage(message: any): any;
 
     // flow
     addScene(name: string, ...args: ((ctx: IBotactCtx) => any)[]): Botact;
