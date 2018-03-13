@@ -80,7 +80,7 @@ app.listen(process.env.PORT)
 * [.uploadPhoto(file, peer_id)](#uploadphotofile-peer_id)
 ---
 
-## Botact API: Core
+## Botact API: Core [↑](#botact-api)
 ### constructor(settings)
 Create bot.  
 
@@ -195,7 +195,7 @@ bot.listen(req, res)
 ```
 
 
-## Botact API: Actions
+## Botact API: Actions  [↑](#botact-api)
 ### .before(callback)
 Add callback before bot will start.
 
@@ -300,7 +300,7 @@ bot.on(({ date }) => {
 ```
 
 
-## Botact API: Options
+## Botact API: Options  [↑](#botact-api)
 ### [getter] options
 
 Get options.
