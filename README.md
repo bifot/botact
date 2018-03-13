@@ -96,7 +96,7 @@ constructor (settings: {
   group_id?: number;
 
   // Flow Settings
-  flowTimeout?: number;
+  flowTimeout?: number;   // Document expire time, in seconds
   redis?: boolean;        // false by default
   redisConfig?: object;   // {} by default
 })
