@@ -74,23 +74,22 @@ interface IBotactCtx extends IBotactCore, IBotactMsg {
 
 export declare class Botact implements IBotactCore {
     // fields
-    flow: IBotactFlow;
-    actions: IBotactActions;
-    methods: IBotactExecuteMethods[];
+    private actions: IBotactActions;
+    private methods: IBotactExecuteMethods[];
     inital?: any;
+    flow: IBotactFlow;
     redis?: any; // TODO: add typings for redis
+    settings: BotactSettings;
 
     // core
-    public constructor(settings: BotactSettings);
-    /* async */ listen(req: any, res: any): Promise<Botact>; // TODO: add typings for Express Request & Response
+    constructor(settings: BotactSettings);
+    private executeHandler(methods: IBotactExecuteMethods[]): void;
+    private /* async */ handler(ctx: IBotactCtx): any;
     /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
-    /* async */ handler(ctx: IBotactCtx): any;
     /* async */ execute(method: string, settings?: any, callback?: (response: any) => any): Promise<any>;
-    executeHandler(methods: IBotactExecuteMethods[]): void;
+    /* async */ listen(req: any, res: any): Promise<Botact>; // TODO: add typings for Express Request & Response
 
     // settings
-    /* get */ settings(): BotactSettings;
-    /* set */ settings(settings: BotactSettings): void;
     getOptions(): BotactSettings;
     setOptions(settings: BotactSettings): void;
     deleteOptions(keys: string[]): Botact;
@@ -108,7 +107,7 @@ export declare class Botact implements IBotactCore {
     /* async */ uploadCover(filepath: string, settings?: any): Promise<any>;
     /* async */ uploadDocument(filepath: string, peer_id: number, type: 'doc' | 'audio_message' /* = 'doc' */): Promise<any>;
     /* async */ uploadPhoto(filepath: string, peer_id: number): Promise<any>;
-    getLastMessage(message: any): any;
+    private getLastMessage(message: any): any;
 
     // flow
     addScene(name: string, ...args: ((ctx: IBotactCtx) => any)[]): Botact;
