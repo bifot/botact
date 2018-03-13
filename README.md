@@ -84,6 +84,10 @@ app.listen(process.env.PORT)
 ### constructor(settings)
 Create bot.  
 
+Botact Flow:  
+Turn `settings.redis` to true, if you will use [Botact Flow](#botact-flow-api).  
+For detailed redis config see [this](https://github.com/NodeRedis/node_redis#options-object-properties)
+
 Definition: 
 ```typescript
 constructor (settings: {
@@ -93,8 +97,8 @@ constructor (settings: {
 
   // Flow Settings
   flowTimeout?: number;
-  redis?: boolean;
-  redisConfig?: any;
+  redis?: boolean;        // false by default
+  redisConfig?: object;   // {} by default
 })
 ```
 Usage:
@@ -431,8 +435,8 @@ $ redis-server
 ### Methods
 * [.addScene(name, ...callbacks)](#addscenename-callbacks)
 * [.joinScene(ctx, scene, session, step, now)](#joinscenectx-scene-session-step-now)
-* [.leaveScene(ctx)](#leavescenectx)
 * [.nextScene(ctx, body)](#nextscenectx-body)
+* [.leaveScene(ctx)](#leavescenectx)
 
 ### Example
 
@@ -563,7 +567,7 @@ bot.addScene('wizard',
 
 ---
 ## TypeScript
-Botact includes TypeScript definitions.
+Botact includes [TypeScript](https://www.typescriptlang.org/) definitions.
 
 
 ## Tests
