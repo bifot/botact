@@ -88,9 +88,6 @@ export declare class Botact implements IBotactCore {
     /* async */ execute(method: string, settings?: any, callback?: (response: any) => any): Promise<any>;
     executeHandler(methods: IBotactExecuteMethods[]): void;
 
-    // statics
-    public static /* async */ execute(method: string, settings?: any, callback?: (response: any) => any): Promise<any>;
-
     // settings
     /* get */ settings(): BotactSettings;
     /* set */ settings(settings: BotactSettings): void;
