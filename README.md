@@ -10,14 +10,14 @@ Botact enables developers to focus on writing reusable application logic instead
 
 
 ## Table of content 
-* [Install](#Install)
-* [Usage](#Usage)
-* [Botact API](#Botact-API)
-* [Botact Flow API](#Botact-Flow-API)
-* [TypeScript](#TypeScript)
-* [Tests](#Tests)
-* [Donate](#Donate)
-* [License](#License)
+* [Install](#install)
+* [Usage](#usage)
+* [Botact API](#botact-api)
+* [Botact Flow API](#botact-flow-api)
+* [TypeScript](#typescript)
+* [Tests](#tests)
+* [Donate](#donate-)
+* [License](#license)
 
 ## Install
 
