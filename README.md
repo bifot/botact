@@ -26,7 +26,7 @@ $ npm i botact -S
 **via yarn:**
 
 ```sh
-yarn add botact
+$ yarn add botact
 ```
 
 ## Usage
@@ -54,9 +54,9 @@ app.listen(process.env.PORT)
 
 ## Botact API
 
-### Methods
+## Methods
 
-**Core**
+### Core
 
 - [constructor(settings)](#constructorsettings)
 - [.api(method, settings)](#apimethod-settings)
@@ -64,7 +64,7 @@ app.listen(process.env.PORT)
 - [.reply(user_id, message, attachment)](#replyuser_id-message-attachment)
 - [.listen(req, res)](#listenreq-res)
 
-**Actions**
+### Actions
 
 - [.before(callback)](#beforecallback)
 - [.command(command, callback)](#commandcommand-callback)
@@ -73,13 +73,13 @@ app.listen(process.env.PORT)
 - [.on(type, callback)](#ontype-callback)
 - [.use(callback)](#usecallback)
 
-**Options**
+### Options
 
 - [[getter] options](#getter-options)
 - [[setter] options](#setter-options)
 - [.deleteOptions(settings)](#deleteoptionssettings)
 
-**Upload helpers**
+### Upload helpers
 
 - [.uploadCover(file, settings)](#uploadcoverfile-settings)
 - [.uploadDocument(file, peer_id ,type)](#uploaddocumentfile-peer_id-type)
@@ -92,10 +92,6 @@ app.listen(process.env.PORT)
 ### constructor(settings)
 
 Create bot.
-
-Botact Flow:<br>
-Turn `settings.redis` to true, if you will use [Botact Flow](#botact-flow-api).<br>
-For detailed redis config see [this](https://github.com/NodeRedis/node_redis#options-object-properties)
 
 **Definition:**
 
@@ -668,17 +664,17 @@ Botact includes [TypeScript](https://www.typescriptlang.org/) definitions.
 
 ## Tests
 
+**via npm:**
+
 ```sh
 $ npm test
 ```
 
-## Donate 💰
+**via yarn:**
 
-Thank you for donations.
-
-- **Bitcoin:** 1C26xXoA42Ufz5cNNPhAJY8Ykqh2QB966L
-- **Ethereum:** 0x331FeA1a0b0E9E66A647e964cF4eBE1D2E721579
-- **Qiwi:** 79522232254
+```sh
+$ yarn test
+```
 
 ## License
 
