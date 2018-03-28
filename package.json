@@ -1,8 +1,9 @@
 {
   "name": "botact",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Botact enables developers to focus on writing reusable application logic instead of spending time building infrastructure.",
   "main": "index.js",
+  "readme": "README.md",
   "scripts": {
     "test": "mocha --exit --timeout 10000",
     "example": "nodemon examples/simple.js",
