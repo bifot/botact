@@ -17,8 +17,16 @@ Botact enables developers to focus on writing reusable application logic instead
 
 ## Install
 
+**via npm:**
+
 ```sh
 $ npm i botact -S
+```
+
+**via yarn:**
+
+```sh
+yarn add botact
 ```
 
 ## Usage
