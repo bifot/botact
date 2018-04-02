@@ -1,6 +1,6 @@
 {
   "name": "botact",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "description": "Botact enables developers to focus on writing reusable application logic instead of spending time building infrastructure.",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
-    "botact": "^2.3.4",
     "form-data": "^2.3.2",
     "redis": "^2.8.0"
   },
