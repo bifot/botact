@@ -207,8 +207,8 @@ Start listen [Express](https://github.com/expressjs/express/) server.
 
 ```typescript
 listen (
-    req: any,         // Express request, required
-    res: any          // Express response, required
+  req: any,           // Express request, required
+  res: any            // Express response, required
   callback: function  // Callback for errors
 )
 ```
