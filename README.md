@@ -62,7 +62,7 @@ app.listen(process.env.PORT)
 - [.api(method, settings)](#apimethod-settings)
 - [.execute(method, settings, callback)](#executemethod-settings-callback)
 - [.reply(user_id, message, attachment)](#replyuser_id-message-attachment)
-- [.listen(req, res)](#listenreq-res)
+- [.listen(req, res, callback)](#listenreq-res-callback)
 
 ### Actions
 
@@ -199,7 +199,7 @@ bot.command('start', (ctx) => {
 })
 ```
 
-### .listen(req, res)
+### .listen(req, res, callback)
 
 Start listen [Express](https://github.com/expressjs/express/) server.
 
@@ -207,15 +207,18 @@ Start listen [Express](https://github.com/expressjs/express/) server.
 
 ```typescript
 listen (
-  req: any,     // Express request, required
-  res: any      // Express response, required
+    req: any,         // Express request, required
+    res: any          // Express response, required
+  callback: function  // Callback for errors
 )
 ```
 
 **Usage:**
 
 ```javascript
-bot.listen(req, res)
+bot.listen(req, res, (error) => {
+  res.status(500).json()
+})
 ```
 
 ## Botact API: Actions [↑](#botact-api)
