@@ -61,7 +61,7 @@ app.listen(process.env.PORT)
 - [constructor(settings)](#constructorsettings)
 - [.api(method, settings)](#apimethod-settings)
 - [.execute(method, settings, callback)](#executemethod-settings-callback)
-- [.reply(user_id, message, attachment)](#replyuser_id-message-attachment)
+- [.reply(user_id, message, attachment, keyboard)](#replyuser_id-message-attachment-keyboard)
 - [.listen(req, res, callback)](#listenreq-res-callback)
 
 ### Actions
@@ -170,7 +170,7 @@ bot.execute('users.get', {
 })
 ```
 
-### .reply(user_id, message, attachment)
+### .reply(user_id, message, attachment, keyboard)
 
 Sends message to user
 
@@ -180,7 +180,8 @@ Sends message to user
 async reply (
   user_id: number,
   message: string,      // required, if attachment not setten
-  attachment: string    // required, if message not setten
+  attachment: string,   // required, if message not setten
+  keyboard: Object      // optional
 ): Promise<any>         // Promise with response/error
 ```
 
@@ -188,11 +189,29 @@ async reply (
 
 ```javascript
 bot.command('start', (ctx) => {
-  // with shortcut from context
+  // via shortcut from context
   ctx.reply('Hi, this is start!')
-  // function from context
+  // via shortcut with keyboard
+  ctx.reply('Yo, this is keyboard?', null, {
+    one_time: false,
+    buttons: [
+      [
+        {
+          action: {
+            type: 'text',
+            payload: {
+              button: 'Hello, world!'
+            },
+            label: 'Hello, world!'
+          },
+          color: 'primary'
+        }
+      ]
+    ]
+  })
+  // via function from context
   ctx.sendMessage(ctx.user_id, 'Hi, this is start!')
-  // simple usage
+  // via function from instance
   bot.reply(ctx.user_id, 'Hi, this is start!')
   // to multiple users
   bot.reply([ ctx.user_id, 1 ], 'Hi, this is start!')

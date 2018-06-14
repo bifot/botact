@@ -40,6 +40,30 @@ describe('methods', () => {
       expect(message).to.be.a('object').to.have.all.keys([ 'peer_id', 'message_id' ])
     })
 
+    it('reply with keyboard', async () => {
+      const { response, error } = await bot.reply(145003487, 'This is button', null, {
+        one_time: false,
+        buttons: [
+          [
+            {
+              action: {
+                type: 'text',
+                payload: {
+                  button: 'Hello, world!'
+                },
+                label: 'Hello, world!'
+              },
+              color: 'primary'
+            }
+          ]
+        ]
+      })
+      const [ message ] = response
+
+      expect(response).to.be.a('array')
+      expect(message).to.be.a('object').to.have.all.keys([ 'peer_id', 'message_id' ])
+    })
+
     it('reply without message or attachment', async () => {
       try {
         await bot.reply(1, null)
