@@ -48,7 +48,7 @@ bot.command('start', ({ reply }) => {
   reply('This is start!')
 })
 
-// User wrote message which contain 'car' or 'tesla'
+// User wrote message which contains 'car' or 'tesla'
 bot.hears(/(car|tesla)/, ({ reply }) => {
   reply('I love Tesla!')
 })
@@ -93,7 +93,7 @@ bot.command('start', ({ reply }) => {
   reply('This is start!')
 })
 
-// User wrote message which contain 'car' or 'tesla'
+// User wrote message which contains 'car' or 'tesla'
 bot.hears(/(car|tesla)/, ({ reply }) => {
   reply('I love Tesla!')
 })
