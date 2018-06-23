@@ -12,7 +12,7 @@ Botact enables developers to focus on writing reusable application logic instead
 - [Botact Flow API](#botact-flow-api)
 - [TypeScript](#typescript)
 - [Tests](#tests)
-- [Donate](#donate-)
+- [Donate](#donate)
 - [License](#license)
 
 ## Install
@@ -62,7 +62,7 @@ app.listen(process.env.PORT)
 - [.api(method, settings)](#apimethod-settings)
 - [.execute(method, settings, callback)](#executemethod-settings-callback)
 - [.reply(user_id, message, attachment, keyboard)](#replyuser_id-message-attachment-keyboard)
-- [.listen(req, res, callback)](#listenreq-res-callback)
+- [.listen(...args)](#listenargs)
 
 ### Actions
 
@@ -100,6 +100,7 @@ constructor (settings: {
   confirmation: string;   // required
   token: string;          // required
   group_id?: number;
+  framework?: string;     // Server framework (express/koa)
 
   // Flow Settings
   flowTimeout?: number;   // Document expire time, in seconds
@@ -218,16 +219,27 @@ bot.command('start', (ctx) => {
 })
 ```
 
-### .listen(req, res, callback)
+### .listen(...args)
 
-Start listen [Express](https://github.com/expressjs/express/) server.
+Start listen.
 
 **Definition:**
+
+express:
 
 ```typescript
 listen (
   req: any,           // Express request, required
   res: any            // Express response, required
+  callback: function  // Callback for errors
+)
+```
+
+koa:
+
+```typescript
+listen (
+  ctx: object,        // Koa object, required
   callback: function  // Callback for errors
 )
 ```
