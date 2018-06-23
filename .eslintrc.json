@@ -1,0 +1,18 @@
+{
+  "extends": "airbnb-base",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 7
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "global-require": "off",
+    "no-mixed-operators": "off",
+    "no-plusplus": "off",
+    "camelcase": "off",
+    "no-shadow": "off",
+    "no-restricted-syntax": "off",
+    "consistent-return": "off",
+    "prefer-promise-reject-errors": "off"
+  }
+}

@@ -1,19 +1,24 @@
-const { RedisClient, createClient, Multi } = require('redis')
-const { promisifyAll } = require('bluebird')
 const { Botact } = require('../')
+const createRedis = require('../lib/utils/redis')
 
-promisifyAll(RedisClient.prototype)
-promisifyAll(Multi.prototype)
-
-const redis = createClient()
+const redis = createRedis()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
   group_id: process.env.GROUP_ID,
   token: process.env.TOKEN
 })
+const sendCallback = (body) => {
+  return bot.listen(
+    { body },
+    {
+      status: () => {},
+      end: () => {}
+    }
+  )
+}
 
-const callApi = (body) => bot.listen({ body }, { end () {} })
-
-exports.redis = redis
-exports.bot = bot
-exports.callApi = callApi
+module.exports = {
+  redis,
+  bot,
+  sendCallback
+}
