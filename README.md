@@ -12,7 +12,6 @@ Botact enables developers to focus on writing reusable application logic instead
 - [Botact Flow API](#botact-flow-api)
 - [TypeScript](#typescript)
 - [Tests](#tests)
-- [Donate](#donate)
 - [License](#license)
 
 ## Install
@@ -29,11 +28,13 @@ $ npm i botact -S
 $ yarn add botact
 ```
 
-## Usage
+## Examples
+
+**express:**
 
 ```javascript
-const bodyParser = require('body-parser')
 const express = require('express')
+const bodyParser = require('body-parser')
 const { Botact } = require('botact')
 
 const app = express()
@@ -42,14 +43,81 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.command('start', ({ reply }) => reply('This is start!'))
-bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
-bot.event('group_join', ({ reply }) => reply('Thanks!'))
-bot.on(({ reply }) => reply('What?'))
+// User wrote command 'start'
+bot.command('start', ({ reply }) => {
+  reply('This is start!')
+})
 
+// User wrote message which contain 'car' or 'tesla'
+bot.hears(/(car|tesla)/, ({ reply }) => {
+  reply('I love Tesla!')
+})
+
+// User joined in the group
+bot.event('group_join', ({ reply }) => {
+  reply('Thanks!')
+})
+
+// User wrote any message
+bot.on(({ reply }) => {
+  reply('What?')
+})
+
+// Parser request body
 app.use(bodyParser.json())
+
+// Bot's endpoint
 app.post('/', bot.listen)
+
+// Start listen on 3000
 app.listen(process.env.PORT)
+```
+
+**koa:**
+
+```js
+const Koa = require('koa')
+const Router = require('koa-router')
+const bodyParser = require('koa-bodyparser')
+const { Botact } = require('botact')
+
+const app = new Koa()
+const router = new Router()
+const bot = new Botact({
+  confirmation: process.env.CONFIRMATION,
+  token: process.env.TOKEN
+})
+
+// User wrote command 'start'
+bot.command('start', ({ reply }) => {
+  reply('This is start!')
+})
+
+// User wrote message which contain 'car' or 'tesla'
+bot.hears(/(car|tesla)/, ({ reply }) => {
+  reply('I love Tesla!')
+})
+
+// User joined in the group
+bot.event('group_join', ({ reply }) => {
+  reply('Thanks!')
+})
+
+// User wrote any message
+bot.on(({ reply }) => {
+  reply('What?')
+})
+
+// Bot's endpoint
+router.post('/', bot.listen)
+
+// Parser request body
+app.use(bodyParser())
+// Connect routes
+app.use(router.routes())
+
+// Start listen on 3000
+app.listen(3000)
 ```
 
 ## Botact API
