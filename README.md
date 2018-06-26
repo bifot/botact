@@ -85,7 +85,8 @@ const app = new Koa()
 const router = new Router()
 const bot = new Botact({
   confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN
+  token: process.env.TOKEN,
+  framework: 'koa'
 })
 
 // User wrote command 'start'
