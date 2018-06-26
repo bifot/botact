@@ -316,8 +316,16 @@ listen (
 **Usage:**
 
 ```javascript
+// express
 bot.listen(req, res, (error) => {
-  res.status(500).json()
+  res.status(500).json({
+    error: 'Server error'
+  })
+})
+
+// koa
+bot.listen(ctx, (error) => {
+  ctx.throw(500, 'Server error')
 })
 ```
 
