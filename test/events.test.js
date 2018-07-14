@@ -2,12 +2,6 @@ const { expect } = require('chai')
 const { bot, sendCallback } = require('./test.config.js')
 
 describe('events', () => {
-  it('add before', async () => {
-    await bot.before(() => 'foo')
-
-    expect(bot.inital).eq('foo')
-  })
-
   it('add middleware', () => {
     const middleware = (ctx) => {
       ctx.foo = 'bar'

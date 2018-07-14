@@ -135,7 +135,6 @@ app.listen(3000)
 
 ### Actions
 
-- [.before(callback)](#beforecallback)
 - [.command(command, callback)](#commandcommand-callback)
 - [.event(event, callback)](#eventevent-callback)
 - [.hears(command, callback)](#hearscommand-callback)
@@ -330,28 +329,6 @@ bot.listen(ctx, (error) => {
 ```
 
 ## Botact API: Actions [↑](#botact-api)
-
-### .before(callback)
-
-Add callback before bot will start.
-
-**Definition:**
-
-```typescript
-before (
-  callback: function
-)
-```
-
-**Usage:**
-
-```javascript
-bot.before(() => new Date())
-
-bot.on(({ inital }) => {
-  // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
-})
-```
 
 ### .command(command, callback)
 

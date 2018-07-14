@@ -96,7 +96,6 @@ export declare class Botact implements IBotactCore {
     deleteOptions(keys: string[]): Botact;
 
     // actions
-    /* async */ before(callback: () => any): Promise<Botact>;
     command(command: string | string[], callback: (ctx: IBotactCtx) => any): Botact;
     event(event: string | string[], callback: (ctx: IBotactCtx) => any): Botact;
     hears(hear: string | RegExp | (string | RegExp)[], callback: (ctx: IBotactCtx) => any): Botact;
