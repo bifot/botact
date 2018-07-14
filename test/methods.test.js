@@ -13,13 +13,14 @@ describe('methods', () => {
       confirmation: 'confirmation'
     })
 
-    bot1.addScene('withdrawal', () => {})
-    bot1.command('/start', () => {})
-    bot1.hears('money', () => {})
-
-    bot2.addScene('game', () => {})
-    bot2.command('/help', () => {})
-    bot2.hears('hello', () => {})
+    bot1
+      .addScene('withdrawal')
+      .command('/start')
+      .hears('money')
+    bot2
+      .addScene('game')
+      .command('/help')
+      .hears('hello')
 
     const bot = compose(bot1, bot2)
 
