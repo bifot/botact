@@ -1,81 +1,57 @@
 const { expect } = require('chai')
-const path = require('path')
+const { Botact, compose } = require('../')
 const { bot } = require('./test.config.js')
 
 describe('methods', () => {
-  describe('uploadCover', () => {
-    it('uploadCover', async () => {
-      const response = await bot.uploadCover(path.join(__dirname, './files/cover.png'), {
-        crop_x2: 1590,
-        crop_y2: 400
-      })
-
-      const { images } = response
-
-      expect(response).to.be.a('object').to.have.all.keys([ 'images' ])
-      expect(images).to.be.a('array')
+  it('compose multiple bots', () => {
+    const bot1 = new Botact({
+      token: 'token',
+      confirmation: 'confirmation'
     })
+    const bot2 = new Botact({
+      token: 'token',
+      confirmation: 'confirmation'
+    })
+
+    bot1.addScene('withdrawal', () => {})
+    bot1.command('/start', () => {})
+    bot1.hears('money', () => {})
+
+    bot2.addScene('game', () => {})
+    bot2.command('/help', () => {})
+    bot2.hears('hello', () => {})
+
+    const bot = compose(bot1, bot2)
+
+    expect(bot.actions.commands.map((item) => item.command))
+      .to.deep.equal(['/start', '/help'])
+    expect(bot.actions.hears.map((item) => item.command))
+      .to.deep.equal([/money/i, /hello/i])
+    expect(Object.keys(bot.flow.scenes))
+      .to.deep.equal(['withdrawal', 'game'])
   })
 
-  describe('reply', () => {
-    it('reply without permission', async () => {
-      const body = await bot.reply(1, 'Hello, world!')
-
-      expect(body).to.deep.equal({
-        response: [{
-          peer_id: 1,
-          error: {
-            code: 901,
-            description: 'Can\'t send messages for users without permission'
-          }
-        }]
-      })
-    })
-
-    it('reply with permission', async () => {
-      const { response } = await bot.reply(145003487, 'Hello, world!')
-      const [ message ] = response
-
-      expect(response).to.be.a('array')
-      expect(message).to.be.a('object').to.have.all.keys([ 'peer_id', 'message_id' ])
-    })
-
-    it('reply with keyboard', async () => {
-      const { response, error } = await bot.reply(145003487, 'This is button', null, {
-        one_time: false,
-        buttons: [
-          [
-            {
-              action: {
-                type: 'text',
-                payload: {
-                  button: 'Hello, world!'
-                },
-                label: 'Hello, world!'
+  it('reply with keyboard', async () => {
+    const { response } = await bot.reply(145003487, 'This is button', null, {
+      one_time: false,
+      buttons: [
+        [
+          {
+            action: {
+              type: 'text',
+              payload: {
+                button: 'Hello, world!'
               },
-              color: 'primary'
-            }
-          ]
-        ]
-      })
-      const [ message ] = response
-
-      expect(response).to.be.a('array')
-      expect(message).to.be.a('object').to.have.all.keys([ 'peer_id', 'message_id' ])
-    })
-
-    it('reply without message or attachment', async () => {
-      try {
-        await bot.reply(1, null)
-      } catch (error) {
-        expect(error).to.deep.equal({
-          error: {
-            error_code: 100,
-            error_msg: 'One of the parameters specified was missing or invalid: message is empty or invalid',
-            method: 'messages.send'
+              label: 'Hello, world!'
+            },
+            color: 'primary'
           }
-        })
-      }
+        ]
+      ]
     })
+    const [ message ] = response
+
+    expect(response).to.be.a('array')
+    expect(message).to.be.a('object').to.have.all.keys([ 'peer_id', 'message_id' ])
   })
 })
