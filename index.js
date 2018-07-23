@@ -1,5 +1,5 @@
 module.exports = {
-  Botact: require('./lib/core'),
+  Botact: require('./lib'),
   api: require('./lib/api'),
-  getLastMessage: require('./lib/utils/getLastMessage')
+  compose: require('./lib/compose')
 }

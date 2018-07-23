@@ -12,7 +12,6 @@ Botact enables developers to focus on writing reusable application logic instead
 - [Botact Flow API](#botact-flow-api)
 - [TypeScript](#typescript)
 - [Tests](#tests)
-- [Donate](#donate-)
 - [License](#license)
 
 ## Install
@@ -29,11 +28,13 @@ $ npm i botact -S
 $ yarn add botact
 ```
 
-## Usage
+## Examples
+
+**express:**
 
 ```javascript
-const bodyParser = require('body-parser')
 const express = require('express')
+const bodyParser = require('body-parser')
 const { Botact } = require('botact')
 
 const app = express()
@@ -42,14 +43,82 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-bot.command('start', ({ reply }) => reply('This is start!'))
-bot.hears(/(car|tesla)/, ({ reply }) => reply('I love Tesla!'))
-bot.event('group_join', ({ reply }) => reply('Thanks!'))
-bot.on(({ reply }) => reply('What?'))
+// User wrote command 'start'
+bot.command('start', ({ reply }) => {
+  reply('This is start!')
+})
 
+// User wrote message which contains 'car' or 'tesla'
+bot.hears(/(car|tesla)/, ({ reply }) => {
+  reply('I love Tesla!')
+})
+
+// User joined in the group
+bot.event('group_join', ({ reply }) => {
+  reply('Thanks!')
+})
+
+// User wrote any message
+bot.on(({ reply }) => {
+  reply('What?')
+})
+
+// Parser request body
 app.use(bodyParser.json())
+
+// Bot's endpoint
 app.post('/', bot.listen)
+
+// Start listen on 3000
 app.listen(process.env.PORT)
+```
+
+**koa:**
+
+```js
+const Koa = require('koa')
+const Router = require('koa-router')
+const bodyParser = require('koa-bodyparser')
+const { Botact } = require('botact')
+
+const app = new Koa()
+const router = new Router()
+const bot = new Botact({
+  confirmation: process.env.CONFIRMATION,
+  token: process.env.TOKEN,
+  framework: 'koa'
+})
+
+// User wrote command 'start'
+bot.command('start', ({ reply }) => {
+  reply('This is start!')
+})
+
+// User wrote message which contains 'car' or 'tesla'
+bot.hears(/(car|tesla)/, ({ reply }) => {
+  reply('I love Tesla!')
+})
+
+// User joined in the group
+bot.event('group_join', ({ reply }) => {
+  reply('Thanks!')
+})
+
+// User wrote any message
+bot.on(({ reply }) => {
+  reply('What?')
+})
+
+// Bot's endpoint
+router.post('/', bot.listen)
+
+// Parser request body
+app.use(bodyParser())
+// Connect routes
+app.use(router.routes())
+
+// Start listen on 3000
+app.listen(3000)
 ```
 
 ## Botact API
@@ -62,11 +131,10 @@ app.listen(process.env.PORT)
 - [.api(method, settings)](#apimethod-settings)
 - [.execute(method, settings, callback)](#executemethod-settings-callback)
 - [.reply(user_id, message, attachment, keyboard)](#replyuser_id-message-attachment-keyboard)
-- [.listen(req, res, callback)](#listenreq-res-callback)
+- [.listen(...args)](#listenargs)
 
 ### Actions
 
-- [.before(callback)](#beforecallback)
 - [.command(command, callback)](#commandcommand-callback)
 - [.event(event, callback)](#eventevent-callback)
 - [.hears(command, callback)](#hearscommand-callback)
@@ -100,6 +168,7 @@ constructor (settings: {
   confirmation: string;   // required
   token: string;          // required
   group_id?: number;
+  framework?: string;     // Server framework (express/koa)
 
   // Flow Settings
   flowTimeout?: number;   // Document expire time, in seconds
@@ -218,11 +287,13 @@ bot.command('start', (ctx) => {
 })
 ```
 
-### .listen(req, res, callback)
+### .listen(...args)
 
-Start listen [Express](https://github.com/expressjs/express/) server.
+Start listen.
 
 **Definition:**
+
+express:
 
 ```typescript
 listen (
@@ -232,37 +303,32 @@ listen (
 )
 ```
 
-**Usage:**
-
-```javascript
-bot.listen(req, res, (error) => {
-  res.status(500).json()
-})
-```
-
-## Botact API: Actions [↑](#botact-api)
-
-### .before(callback)
-
-Add callback before bot will start.
-
-**Definition:**
+koa:
 
 ```typescript
-before (
-  callback: function
+listen (
+  ctx: object,        // Koa object, required
+  callback: function  // Callback for errors
 )
 ```
 
 **Usage:**
 
 ```javascript
-bot.before(() => new Date())
+// express
+bot.listen(req, res, (error) => {
+  res.status(500).json({
+    error: 'Server error'
+  })
+})
 
-bot.on(({ inital }) => {
-  // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
+// koa
+bot.listen(ctx, (error) => {
+  ctx.throw(500, 'Server error')
 })
 ```
+
+## Botact API: Actions [↑](#botact-api)
 
 ### .command(command, callback)
 

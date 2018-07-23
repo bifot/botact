@@ -1,13 +1,7 @@
 const { expect } = require('chai')
-const { bot, callApi } = require('./test.config.js')
+const { bot, sendCallback } = require('./test.config.js')
 
 describe('events', () => {
-  it('add before', async () => {
-    await bot.before(() => 'foo')
-
-    expect(bot.inital).eq('foo')
-  })
-
   it('add middleware', () => {
     const middleware = (ctx) => {
       ctx.foo = 'bar'
@@ -16,7 +10,7 @@ describe('events', () => {
     bot.use(middleware)
     bot.on(({ foo }) => expect(foo).eq('bar'))
 
-    callApi({
+    sendCallback({
       type: 'message_new',
       object: {
         body: {
@@ -36,7 +30,7 @@ describe('events', () => {
 
     bot.command(command, callback)
 
-    callApi({
+    sendCallback({
       type: 'message_new',
       object: {
         body: command
@@ -45,7 +39,8 @@ describe('events', () => {
 
     expect(bot.actions.commands).to.deep.include({
       command,
-      callback
+      callback,
+      isPriority: false
     })
   })
 
@@ -55,7 +50,7 @@ describe('events', () => {
 
     bot.hears(command, callback)
 
-    callApi({
+    sendCallback({
       type: 'message_new',
       object: {
         body: command.toString()
@@ -73,7 +68,7 @@ describe('events', () => {
 
     bot.on(callback)
 
-    callApi({
+    sendCallback({
       type: 'message_new',
       object: {
         body: Math.random()
@@ -91,7 +86,7 @@ describe('events', () => {
 
     bot.on('audio', callback)
 
-    callApi({
+    sendCallback({
       type: 'message_new',
       object: {
         body: Math.random(),
@@ -111,7 +106,7 @@ describe('events', () => {
 
     bot.event(event, callback)
 
-    callApi({
+    sendCallback({
       type: event,
       object: {
         user_id: Math.random()

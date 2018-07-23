@@ -1,13 +1,12 @@
 const bodyParser = require('body-parser')
 const express = require('express')
-const { Botact } = require('../index')
-const { confirmation, token } = require('../config')
+const { Botact } = require('../')
 
 const { PORT = 3000 } = process.env
 const app = express()
 const bot = new Botact({
-  confirmation: process.env.CONFIRMATION || confirmation,
-  token: process.env.TOKEN || token
+  confirmation: process.env.CONFIRMATION,
+  token: process.env.TOKEN
 })
 
 bot.command('start', ({ reply }) => reply('This is start!'))

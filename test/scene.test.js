@@ -27,7 +27,7 @@ describe('scene', () => {
       scene,
       step,
       session
-    } = JSON.parse(await redis.getAsync(`flow:${token}:${id}`))
+    } = await redis.get(`flow_${token}_${id}`)
 
     expect(scene).eq(sceneName)
     expect(step).eq(0)
@@ -51,7 +51,7 @@ describe('scene', () => {
       scene,
       step,
       session
-    } = JSON.parse(await redis.getAsync(`flow:${token}:${id}`))
+    } = await redis.get(`flow_${token}_${id}`)
 
     expect(scene).eq(sceneName)
     expect(step).eq(1)
@@ -67,7 +67,7 @@ describe('scene', () => {
       redis
     })
 
-    const flow = JSON.parse(await redis.getAsync(`flow:${token}:${id}`))
+    const flow = await redis.get(`flow_${token}_${id}`)
 
     expect(flow).eq(null)
   })
