@@ -39,7 +39,8 @@ describe('events', () => {
 
     expect(bot.actions.commands).to.deep.include({
       command,
-      callback
+      callback,
+      isPriority: false
     })
   })
 
