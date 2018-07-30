@@ -140,7 +140,6 @@ app.listen(3000)
 - [.hears(command, callback)](#hearscommand-callback)
 - [.on(type, callback)](#ontype-callback)
 - [.use(callback)](#usecallback)
-- [.catch(callback)](#catchcallback)
 
 ### Options
 
