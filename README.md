@@ -140,6 +140,7 @@ app.listen(3000)
 - [.hears(command, callback)](#hearscommand-callback)
 - [.on(type, callback)](#ontype-callback)
 - [.use(callback)](#usecallback)
+- [.catch(callback)](#catchcallback)
 
 ### Options
 
@@ -432,6 +433,34 @@ bot.use(ctx => ctx.date = new Date())
 
 bot.on(({ date }) => {
   // Fri Nov 24 2017 16:00:21 GMT+0300 (MSK)
+})
+```
+
+## .catch(callback)
+
+Add catch handler for errors.
+
+**Default handler:**
+
+```js
+this.catch = (err) => {
+  console.error(`❌ Botact Error: ${typeof err === 'object' ? JSON.stringify(err) : err}`)
+}
+```
+
+**Usage:**
+
+```js
+// Handle all botact errors here
+bot.catch((err) => {
+  console.error(err)
+})
+
+bot.on((ctx) => {
+  if (ctx.peer_id !== 1) {
+    // Send error to the .catch handler
+    throw new Error('User is not Pavel Durov')
+  }
 })
 ```
 
