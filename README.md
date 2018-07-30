@@ -130,7 +130,7 @@ app.listen(3000)
 - [constructor(settings)](#constructorsettings)
 - [.api(method, settings)](#apimethod-settings)
 - [.execute(method, settings, callback)](#executemethod-settings-callback)
-- [.reply(user_id, message, attachment, keyboard)](#replyuser_id-message-attachment-keyboard)
+- [.reply(userId, message, attachment, keyboard)](#replyuserid-message-attachment-keyboard)
 - [.listen(...args)](#listenargs)
 
 ### Actions
@@ -151,8 +151,14 @@ app.listen(3000)
 ### Upload helpers
 
 - [.uploadCover(file, settings)](#uploadcoverfile-settings)
-- [.uploadDocument(file, peer_id ,type)](#uploaddocumentfile-peer_id-type)
-- [.uploadPhoto(file, peer_id)](#uploadphotofile-peer_id)
+- [.uploadDocument(file, peerId, type)](#uploaddocumentfile-peerid-type)
+- [.uploadPhoto(file, peerId)](#uploadphotofile-peerid)
+
+### Error Handling
+
+- [.catch(handler)](#catchhandler)
+- [.throw(error)](#throwerror)
+- [.assert(value, message)](#assertvalue-message)
 
 --------------------------------------------------------------------------------
 
@@ -205,7 +211,7 @@ async api (
 **Usage:**
 
 ```javascript
-const user_data = await bot.api('users.get', {
+const data = await bot.api('users.get', {
   user_ids: 1
 })
 ```
@@ -240,7 +246,7 @@ bot.execute('users.get', {
 })
 ```
 
-### .reply(user_id, message, attachment, keyboard)
+### .reply(userId, message, attachment, keyboard)
 
 Sends message to user
 
@@ -248,7 +254,7 @@ Sends message to user
 
 ```typescript
 async reply (
-  user_id: number,
+  userId: number,
   message: string,      // required, if attachment not setten
   attachment: string,   // required, if message not setten
   keyboard: Object      // optional
@@ -436,34 +442,6 @@ bot.on(({ date }) => {
 })
 ```
 
-## .catch(callback)
-
-Add catch handler for errors.
-
-**Default handler:**
-
-```js
-this.catch = (err) => {
-  console.error(`❌ Botact Error: ${typeof err === 'object' ? JSON.stringify(err) : err}`)
-}
-```
-
-**Usage:**
-
-```js
-// Handle all botact errors here
-bot.catch((err) => {
-  console.error(err)
-})
-
-bot.on((ctx) => {
-  if (ctx.peer_id !== 1) {
-    // Send error to the .catch handler
-    throw new Error('User is not Pavel Durov')
-  }
-})
-```
-
 ## Botact API: Options [↑](#botact-api)
 
 ### [getter] options
@@ -598,6 +576,71 @@ await bot.uploadPhoto('./picture.png', 1234)
 //   owner_id: 1234,
 //   ...
 // }
+```
+
+## Botact API: Error Handling [↑](#botact-api)
+
+### .catch(handler)
+
+Add catch handler for errors.
+
+**Default handler:**
+
+```js
+console.error(`❌ Botact Error: ${typeof err === 'object' ? JSON.stringify(err) : err}`)
+```
+
+**Usage:**
+
+```js
+// Handle all botact errors here
+bot.catch((ctx, err) => {
+  // ctx - user's context
+  // err - throwed error
+  console.error(ctx, err)
+})
+
+bot.on((ctx) => {
+  if (ctx.peer_id !== 1) {
+    // Throw error to the .catch handler
+    return ctx.throw('User is not Pavel Durov')
+  }
+})
+```
+
+### .throw(error)
+
+Throw error.
+
+**Usage:**
+
+```js
+bot.catch((ctx, err) => {
+  console.error(ctx, err)
+})
+
+bot.command('start', (ctx) => {
+  if (ctx.peer_id === 301361473) {
+    return ctx.throw('User is blocked')
+  }
+  
+  ctx.reply('Hello, how are you?')
+})
+```
+
+### .assert(value, message)
+
+Helper method to throw an error similar to .throw() when !value.
+
+```js
+bot.catch((ctx, err) => {
+  console.error(ctx, err)
+})
+
+bot.command('start', (ctx) => {
+  ctx.assert(ctx.peer_id !== 301361473, 'User is blocked')
+  ctx.reply('Hello, how are you?')
+})
 ```
 
 --------------------------------------------------------------------------------

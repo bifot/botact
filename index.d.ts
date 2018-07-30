@@ -59,7 +59,7 @@ interface IBotactCore {
 
 interface IBotactCtx extends IBotactCore, IBotactMsg {
     /* async */ reply(message: string, attachment?: string): Promise<any>;
-    /* async */ sendMessage(user_id: number, message: string, attachment?: string): Promise<any>
+    /* async */ sendMessage(userId: number, message: string, attachment?: string): Promise<any>
 
     scene: {
         join(scene: string, session?: any /* = {} */, step?: number /* = 0 */, instantly?: boolean /* = true */): Promise<any>;
@@ -88,7 +88,7 @@ export declare class Botact implements IBotactCore {
     /* async */ api(method: string, options?: any /* = {}*/): Promise<any>;
     /* async */ execute(method: string, settings?: any, callback?: (response: any) => any): Promise<any>;
     /* async */ listen(req: any, res: any): Promise<Botact>; // TODO: add typings for Express Request & Response
-    /* async */ reply(user_id: number, message: string, attachment?: string): Promise<any>;
+    /* async */ reply(userId: number, message: string, attachment?: string): Promise<any>;
 
     // settings
     getOptions(): BotactSettings;
