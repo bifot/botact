@@ -1,25 +1,26 @@
-const { Botact } = require('../')
-const createRedis = require('../lib/utils/redis')
+const Botact = require('../lib')
 
-const redis = createRedis()
-const bot = new Botact({
-  confirmation: process.env.CONFIRMATION || 'confirmation',
-  group_id: process.env.GROUP_ID || 1,
+class Test extends Botact {
+  constructor(settings) {
+    super(settings)
+  }
+
+  call(update, type = 'message_new') {
+    this.listen({
+      request: {
+        body: {
+          type,
+          object: update
+        }
+      },
+      body: null,
+      status: null
+    })
+  }
+}
+
+module.exports = new Test({
   token: process.env.TOKEN || 'token',
-  framework: 'koa'
+  confirmation: process.env.CONFIRMATION || 'confirmation',
+  framework: process.env.FRAMEWORK || 'koa'
 })
-const sendCallback = (body) => {
-  return bot.listen({
-    request: {
-      body
-    },
-    body: null,
-    status: null
-  })
-}
-
-module.exports = {
-  redis,
-  bot,
-  sendCallback
-}
