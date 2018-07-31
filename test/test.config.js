@@ -17,6 +17,10 @@ class Test extends Botact {
       status: null
     })
   }
+
+  sleep(ms = 1000) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
 }
 
 module.exports = new Test({

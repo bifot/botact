@@ -13,6 +13,33 @@ describe('botact core', () => {
     expect(bot.options.name).to.equal('Super bot')
   })
 
+  it('add middlewares', async () => {
+    const callback = sinon.fake()
+
+    bot.use(async (ctx, next) => {
+      ctx.username = 'bifot'
+
+      callback()
+
+      await bot.sleep(100)
+      await next()
+    })
+
+    bot.use((ctx, next) => {
+      expect(ctx.username).to.equal('bifot')
+
+      callback()
+      next()
+    })
+
+    bot.call({ text: 'Any message '})
+
+    await bot.sleep(250)
+
+    expect(bot.actions.middlewares).to.have.length(2)
+    expect(callback.callCount).to.equal(2)
+  })
+
   it('add command', () => {
     const callback = sinon.fake()
 
