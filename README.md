@@ -30,8 +30,6 @@ $ yarn add botact
 
 ## Examples
 
-**express:**
-
 ```javascript
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -43,82 +41,14 @@ const bot = new Botact({
   token: process.env.TOKEN
 })
 
-// User wrote command 'start'
-bot.command('start', ({ reply }) => {
-  reply('This is start!')
+bot.on(ctx => {
+  ctx.reply('Hello!')
 })
 
-// User wrote message which contains 'car' or 'tesla'
-bot.hears(/(car|tesla)/, ({ reply }) => {
-  reply('I love Tesla!')
-})
-
-// User joined in the group
-bot.event('group_join', ({ reply }) => {
-  reply('Thanks!')
-})
-
-// User wrote any message
-bot.on(({ reply }) => {
-  reply('What?')
-})
-
-// Parser request body
+// Apply middlewares & start server
 app.use(bodyParser.json())
-
-// Bot's endpoint
 app.post('/', bot.listen)
-
-// Start listen on 3000
 app.listen(process.env.PORT)
-```
-
-**koa:**
-
-```js
-const Koa = require('koa')
-const Router = require('koa-router')
-const bodyParser = require('koa-bodyparser')
-const { Botact } = require('botact')
-
-const app = new Koa()
-const router = new Router()
-const bot = new Botact({
-  confirmation: process.env.CONFIRMATION,
-  token: process.env.TOKEN,
-  framework: 'koa'
-})
-
-// User wrote command 'start'
-bot.command('start', ({ reply }) => {
-  reply('This is start!')
-})
-
-// User wrote message which contains 'car' or 'tesla'
-bot.hears(/(car|tesla)/, ({ reply }) => {
-  reply('I love Tesla!')
-})
-
-// User joined in the group
-bot.event('group_join', ({ reply }) => {
-  reply('Thanks!')
-})
-
-// User wrote any message
-bot.on(({ reply }) => {
-  reply('What?')
-})
-
-// Bot's endpoint
-router.post('/', bot.listen)
-
-// Parser request body
-app.use(bodyParser())
-// Connect routes
-app.use(router.routes())
-
-// Start listen on 3000
-app.listen(3000)
 ```
 
 ## Botact API
