@@ -30,15 +30,8 @@ describe('options', () => {
   })
 
   it('set options', () => {
-    bot.options = { foo: 'bar' }
+    bot.options.foo = 'bar'
 
     expect(bot.options.foo).to.equal('bar')
-  })
-
-  it('delete options', () => {
-    bot.deleteOptions([ 'confirmation', 'foo' ])
-
-    expect(bot.options.confirmation).to.equal(undefined)
-    expect(bot.options.foo).to.equal(undefined)
   })
 })

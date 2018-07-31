@@ -145,7 +145,6 @@ app.listen(3000)
 
 - [[getter] options](#getter-options)
 - [[setter] options](#setter-options)
-- [.deleteOptions(settings)](#deleteoptionssettings)
 
 ### Upload helpers
 
@@ -464,27 +463,6 @@ bot.options = { foo: 'bar' }
 // {
 //   confirmation: '12345',
 //   token: 'abcde...',
-//   foo: 'bar'
-// }
-```
-
-### .deleteOptions(settings)
-
-Delete keys settings.
-
-**Definition:**
-
-```typescript
-deleteOptions (
-  keys: string[]
-): Botact
-```
-
-**Usage:**
-
-```javascript
-bot.deleteOptions([ 'token', 'confirmation' ])
-// {
 //   foo: 'bar'
 // }
 ```
